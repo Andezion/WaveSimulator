@@ -25,8 +25,10 @@ void processSignalOperation(AppState& state) {
 
     for (size_t i = 0; i < len; ++i) {
         result->times[i] = state.opSignal1->times[i];
+
         double a = state.opSignal1->samples[i];
         double b = state.opSignal2->samples[i];
+
         switch (state.selectedOp) {
             case Operation::Add: result->samples[i] = a + b; break;
             case Operation::Sub: result->samples[i] = a - b; break;
@@ -52,26 +54,23 @@ void processInput(AppState& state, int plotX, int plotW) {
         if (wheel != 0.0f) {
             bool ctrl = IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL);
             if (ctrl) {
-                // Zoom
                 state.plotZoom *= (wheel > 0 ? 1.15f : 1.0f / 1.15f);
                 if (state.plotZoom < 0.1f)  state.plotZoom = 0.1f;
                 if (state.plotZoom > 100.0f) state.plotZoom = 100.0f;
             } else {
-                // Scroll
                 state.plotScrollX -= wheel * 30.0f;
                 if (state.plotScrollX < 0.0f) state.plotScrollX = 0.0f;
             }
         }
     }
 
-    // Deselect text input on click outside any input box
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        // focusedInput is updated by drawTextInput(); nothing extra needed here
+        
     }
 
-    // Escape clears focused input
     if (IsKeyPressed(KEY_ESCAPE)) {
         state.focusedInput = -1;
+        
         state.showSaveDialog = false;
         state.showLoadDialog = false;
         state.showOp1Dialog  = false;
