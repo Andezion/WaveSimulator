@@ -148,7 +148,6 @@ static void drawLeftPanel(AppState& state) {
     field(PI_SAMPLE_STEP,    "Impulse Idx (ns):",   needSamples);
     field(PI_PROBABILITY,    "Probability (p):",    needProb);
 
-    // ── Generate button ──────────────────────────────────────────────────────
     Rectangle genBtn = {x, y, fw, 28.0f};
     drawButton(genBtn, "[ Generate Signal ]", false);
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -158,7 +157,6 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 34.0f;
 
-    // ── Histogram bins ───────────────────────────────────────────────────────
     DrawText("Histogram bins:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
     int binOpts[4] = {5,10,15,20};
@@ -174,7 +172,6 @@ static void drawLeftPanel(AppState& state) {
     }
     y += bh + 8.0f;
 
-    // ── Statistics ───────────────────────────────────────────────────────────
     Rectangle statsRect = {x, y, fw, 100.0f};
     DrawRectangleRec(statsRect, {220, 230, 220, 255});
     DrawRectangleLinesEx(statsRect, 1.0f, COL_BTN_BORDER);
@@ -200,7 +197,6 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 108.0f;
 
-    // ── File operations ──────────────────────────────────────────────────────
     DrawText("File:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
     float hw = (fw - 4.0f) / 2.0f;
@@ -215,11 +211,9 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 32.0f;
 
-    // ── Signal operations ─────────────────────────────────────────────────────
     DrawText("Signal Operations:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
 
-    // Slot 1
     {
         char lbl[80];
         snprintf(lbl, sizeof(lbl), "Sig1: %s",
@@ -236,7 +230,6 @@ static void drawLeftPanel(AppState& state) {
         }
         y += 26.0f;
     }
-    // Slot 2
     {
         char lbl[80];
         snprintf(lbl, sizeof(lbl), "Sig2: %s",
@@ -254,7 +247,6 @@ static void drawLeftPanel(AppState& state) {
         y += 26.0f;
     }
 
-    // Operation selector
     const char* opLabels[4] = {"+", "-", "x", "/"};
     float opbw = (fw - 9.0f) / 4.0f;
     for (int i = 0; i < 4; ++i) {
@@ -277,7 +269,6 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 32.0f;
 
-    // Status message
     if (!state.statusMsg.empty()) {
         Color col = (state.statusMsg.find("Error") != std::string::npos ||
                      state.statusMsg.find("error") != std::string::npos) ? RED : DARKGREEN;
@@ -286,7 +277,6 @@ static void drawLeftPanel(AppState& state) {
     }
 }
 
-// ── signal plot ────────────────────────────────────────────────────────────────
 static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     DrawRectangleRec(plotRect, COL_PLOT_BG);
     DrawRectangleLinesEx(plotRect, 1.0f, COL_AXIS);
@@ -338,7 +328,6 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
         return oy + static_cast<float>(1.0 - (v - yMin) / yRange) * drawH;
     };
 
-    // Zero line
     float zeroY = toScreenY(0.0);
     if (zeroY >= oy && zeroY <= oy + drawH)
         DrawLine(static_cast<int>(ox), static_cast<int>(zeroY),
