@@ -21,12 +21,18 @@ double TriangularWaveSignal::computeValue(double t) const {
         phase += T;
     }
     double risingEnd = kw * T;
-    if (risingEnd <= 0.0) risingEnd = 1e-9;
+
+    if (risingEnd <= 0.0) {
+        risingEnd = 1e-9;
+    }
     double fallingLen = T - risingEnd;
+
     if (phase < risingEnd) {
         return A / risingEnd * phase;
     } else {
-        if (fallingLen <= 0.0) return A;
+        if (fallingLen <= 0.0) {
+            return A;
+        }
         return -A / (T * (1.0 - kw)) * phase + A / (1.0 - kw);
     }
 }
