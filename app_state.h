@@ -53,13 +53,14 @@ struct AppState {
     double statRms     = 0.0;
     double statVar     = 0.0;
     double statPower   = 0.0;
+
     bool   statsValid  = false;
 
-    // File dialog state
     bool   showSaveDialog  = false;
     bool   showLoadDialog  = false;
     bool   showOp1Dialog   = false;
     bool   showOp2Dialog   = false;
+    
     TextInput fileNameInput;
 
     void init();
