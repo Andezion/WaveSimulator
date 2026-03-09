@@ -1,4 +1,3 @@
-// raylib.h MUST come first — it defines Color, Rectangle, Vector2, etc.
 #include <raylib.h>
 #include "draw_window.h"
 #include "../app_state.h"
@@ -10,7 +9,6 @@
 #include <functional>
 #include <string>
 
-// ── colours ──────────────────────────────────────────────────────────────────
 static const Color COL_PANEL      = {230, 230, 230, 255};
 static const Color COL_PLOT_BG    = WHITE;
 static const Color COL_SIGNAL     = RED;
@@ -20,7 +18,6 @@ static const Color COL_BTN_ACTIVE = {180, 210, 255, 255};
 static const Color COL_BTN_BORDER = {160, 160, 160, 255};
 static const Color COL_HIST       = { 80, 160, 220, 255};
 
-// ── layout constants ──────────────────────────────────────────────────────────
 static const int SCREEN_W = 1280;
 static const int SCREEN_H = 720;
 static const int PANEL_W  = 320;
@@ -30,10 +27,8 @@ static const int PLOT_H   = static_cast<int>(SCREEN_H * 0.60f);
 static const int HIST_H   = SCREEN_H - PLOT_H;
 static const int FONT_SZ  = 14;
 
-// forward declaration for operation handler in user_input.cpp
 void processSignalOperation(AppState& state);
 
-// ── helpers ───────────────────────────────────────────────────────────────────
 static void drawButton(Rectangle r, const char* label, bool active) {
     Color bg = active ? COL_BTN_ACTIVE : COL_BTN_NORMAL;
     DrawRectangleRec(r, bg);
@@ -77,7 +72,6 @@ static void drawTextInput(AppState& state, int idx,
              static_cast<int>(r.y + (r.height - FONT_SZ) / 2),
              FONT_SZ, BLACK);
 
-    // Blinking cursor
     if (focused) {
         double t = GetTime();
         if ((t - std::floor(t)) < 0.5) {
@@ -95,7 +89,6 @@ static void drawTextInput(AppState& state, int idx,
     }
 }
 
-// ── left panel ────────────────────────────────────────────────────────────────
 static void drawLeftPanel(AppState& state) {
     Rectangle panel = {0, 0, static_cast<float>(PANEL_W), static_cast<float>(SCREEN_H)};
     DrawRectangleRec(panel, COL_PANEL);
@@ -105,9 +98,8 @@ static void drawLeftPanel(AppState& state) {
     float y   = 6.0f;
     float fw  = PANEL_W - 12.0f;
     float bh  = 22.0f;
-    float bw4 = (fw - 3.0f * 4.0f) / 4.0f;   // 4-column button width
+    float bw4 = (fw - 3.0f * 4.0f) / 4.0f;   
 
-    // ── Signal type buttons ──────────────────────────────────────────────────
     DrawText("Signal Type:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
 
@@ -127,7 +119,6 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 3.0f * (bh + 4.0f) + 8.0f;
 
-    // ── Parameter inputs ─────────────────────────────────────────────────────
     float fh      = 22.0f;
     float fy_step = 40.0f;
 
