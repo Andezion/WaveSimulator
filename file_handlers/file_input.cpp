@@ -6,19 +6,31 @@
 
 std::unique_ptr<Signal> loadSignal(const std::string& path) {
     FILE* f = fopen(path.c_str(), "rb");
-    if (!f) return nullptr;
+    if (!f) {
+        return nullptr;
+    }
 
     double  startTime    = 0.0;
     double  samplingFreq = 1.0;
     int32_t isComplex    = 0;
     int32_t numSamples   = 0;
 
-    if (fread(&startTime,    sizeof(double),  1, f) != 1) { fclose(f); return nullptr; }
-    if (fread(&samplingFreq, sizeof(double),  1, f) != 1) { fclose(f); return nullptr; }
-    if (fread(&isComplex,    sizeof(int32_t), 1, f) != 1) { fclose(f); return nullptr; }
-    if (fread(&numSamples,   sizeof(int32_t), 1, f) != 1) { fclose(f); return nullptr; }
+    if (fread(&startTime,    sizeof(double),  1, f) != 1) { 
+        fclose(f); return nullptr; 
+    }
+    if (fread(&samplingFreq, sizeof(double),  1, f) != 1) { 
+        fclose(f); return nullptr; 
+    }
+    if (fread(&isComplex,    sizeof(int32_t), 1, f) != 1) { 
+        fclose(f); return nullptr; 
+    }
+    if (fread(&numSamples,   sizeof(int32_t), 1, f) != 1) { 
+        fclose(f); return nullptr; 
+    }
 
-    if (numSamples < 0 || numSamples > 100000000) { fclose(f); return nullptr; }
+    if (numSamples < 0 || numSamples > 100000000) { 
+        fclose(f); return nullptr; 
+    }
 
     auto sig = std::make_unique<GenericSignal>();
     sig->params.startTime    = startTime;
@@ -30,7 +42,6 @@ std::unique_ptr<Signal> loadSignal(const std::string& path) {
         sig->samples.resize(read);
     }
 
-    // Rebuild times vector
     sig->times.resize(sig->samples.size());
     for (size_t i = 0; i < sig->samples.size(); ++i) {
         sig->times[i] = startTime + static_cast<double>(i) / samplingFreq;
