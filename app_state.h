@@ -4,15 +4,14 @@
 #include <string>
 #include <array>
 
-enum class SignalType { None=0, S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11 };
-enum class Operation  { Add=0, Sub, Mul, Div };
+enum class SignalType { None = 0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11 };
+enum class Operation  { Add = 0, Sub, Mul, Div };
 
 struct TextInput {
     char buf[64] = {};
     bool active  = false;
 };
 
-// Indices into AppState::paramInputs
 enum ParamIndex {
     PI_AMPLITUDE    = 0,
     PI_START_TIME   = 1,
