@@ -3,7 +3,6 @@ project(WaveSimulator CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Try to find raylib installed on the system first
 find_package(raylib 4.0 QUIET)
 if (NOT raylib_FOUND)
     include(FetchContent)
@@ -34,7 +33,7 @@ target_link_libraries(WaveSimulator PRIVATE raylib)
 
 if(UNIX AND NOT APPLE)
     target_link_libraries(WaveSimulator PRIVATE m dl pthread)
-    # X11 / OpenGL needed on Linux
+    
     find_package(OpenGL REQUIRED)
     target_link_libraries(WaveSimulator PRIVATE OpenGL::GL)
     find_package(X11)
@@ -43,5 +42,4 @@ if(UNIX AND NOT APPLE)
     endif()
 endif()
 
-# Export compile commands for clangd / IDE linter
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
