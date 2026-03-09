@@ -11,7 +11,6 @@
 #include "waves_math/unit_impulse.h"
 #include "waves_math/impulse_noise.h"
 #include <cstdio>
-#include <cstring>
 #include <cstdlib>
 
 static std::unique_ptr<Signal> makeSignal(SignalType type) {
@@ -33,7 +32,7 @@ static std::unique_ptr<Signal> makeSignal(SignalType type) {
 
 void AppState::init() {
     params = SignalParams{};
-    selectedType = SignalType::S3;
+    selectedType = SignalType::S1;
     selectedOp   = Operation::Add;
     histBins     = 10;
     plotScrollX  = 0.0f;
@@ -71,7 +70,6 @@ void AppState::syncInputsToParams() {
     params.sampleStep   = atoi(paramInputs[PI_SAMPLE_STEP].buf);
     params.probability  = atof(paramInputs[PI_PROBABILITY].buf);
 
-    // Clamp
     if (params.samplingFreq <= 0.0) params.samplingFreq = 1.0;
     if (params.duration     <= 0.0) params.duration     = 0.01;
     if (params.period       <= 0.0) params.period       = 0.01;
@@ -83,7 +81,11 @@ void AppState::syncInputsToParams() {
 
 void AppState::updateStats() {
     statsValid = false;
-    if (!currentSignal || currentSignal->samples.empty()) return;
+
+    if (!currentSignal || currentSignal->samples.empty()) {
+        return;
+    }
+
     statMean    = currentSignal->mean();
     statAbsMean = currentSignal->absMean();
     statRms     = currentSignal->rms();
@@ -95,11 +97,18 @@ void AppState::updateStats() {
 void AppState::generateSignal() {
     syncInputsToParams();
     auto sig = makeSignal(selectedType);
-    if (!sig) { statusMsg = "Unknown signal type"; return; }
+
+    if (!sig) { 
+        statusMsg = "Unknown signal type"; 
+        return; 
+    }
+
     sig->params = params;
     sig->generate();
+
     currentSignal = std::move(sig);
     plotScrollX = 0.0f;
+    
     updateStats();
     statusMsg = "Signal generated: " + currentSignal->getName();
 }
