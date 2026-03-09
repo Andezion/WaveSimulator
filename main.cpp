@@ -1,0 +1,43 @@
+#include "raylib.h"
+#include "app_state.h"
+#include "window_handlers/draw_window.h"
+#include <cstdlib>
+#include <ctime>
+
+// Declared in input_handlers/user_input.cpp
+void processInput(AppState& state, int plotX, int plotW);
+
+// Declared in camera_handlers/sliding_window.cpp
+void clampPlotScroll(AppState& state, float plotDrawWidth);
+
+int main() {
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    const int SCREEN_W = 1280;
+    const int SCREEN_H = 720;
+    const int PANEL_W  = 320;
+    const int PLOT_PAD_L = 55;  // matches draw_window.cpp PAD_L
+    const int PLOT_PAD_R = 10;
+
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(SCREEN_W, SCREEN_H, "WaveSimulator — Digital Signal Processing");
+    SetTargetFPS(60);
+
+    AppState state;
+    state.init();
+
+    while (!WindowShouldClose()) {
+        int plotX = PANEL_W + PLOT_PAD_L;
+        int plotW = SCREEN_W - PANEL_W - PLOT_PAD_L - PLOT_PAD_R;
+
+        processInput(state, plotX, plotW);
+        clampPlotScroll(state, static_cast<float>(plotW));
+
+        BeginDrawing();
+            drawWindow(state);
+        EndDrawing();
+    }
+
+    CloseWindow();
+    return 0;
+}
