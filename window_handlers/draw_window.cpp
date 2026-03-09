@@ -357,7 +357,6 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
 
     EndScissorMode();
 
-    // Y-axis ticks and labels
     for (int i = 0; i <= 5; ++i) {
         double v  = yMin + yRange * i / 5.0;
         float  sy = toScreenY(v);
@@ -369,7 +368,6 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
                  static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
     }
 
-    // X-axis ticks and labels
     for (int i = 0; i <= 6; ++i) {
         double t  = tViewMin + visibleDuration * i / 6.0;
         float  sx = toScreenX(t);
@@ -381,25 +379,21 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
                  static_cast<int>(sx), static_cast<int>(oy + drawH + 3), COL_AXIS);
     }
 
-    // Axis lines
     DrawLine(static_cast<int>(ox), static_cast<int>(oy),
              static_cast<int>(ox), static_cast<int>(oy + drawH), COL_AXIS);
     DrawLine(static_cast<int>(ox), static_cast<int>(oy + drawH),
              static_cast<int>(ox + drawW), static_cast<int>(oy + drawH), COL_AXIS);
 
-    // Title — store name in a local to avoid dangling pointer from temporary
     std::string titleStr = state.resultSignal  ? "Result Signal"
                          : state.currentSignal ? state.currentSignal->getName()
                          : std::string{};
     DrawText(titleStr.c_str(), static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
 
-    // Scroll hint
     DrawText("Mouse wheel: scroll  |  Ctrl+wheel: zoom",
              static_cast<int>(ox + drawW - 240),
              static_cast<int>(oy + drawH + 16), 10, GRAY);
 }
 
-// ── histogram ──────────────────────────────────────────────────────────────────
 static void drawHistogram(AppState& state, Rectangle histRect) {
     DrawRectangleRec(histRect, Color{245, 245, 255, 255});
     DrawRectangleLinesEx(histRect, 1.0f, COL_AXIS);
@@ -447,7 +441,6 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
         DrawRectangleLinesEx(bar, 1.0f, Color{50, 100, 180, 255});
     }
 
-    // X labels (bin boundaries)
     for (int i = 0; i <= bins; ++i) {
         double v  = yMin + i * binW;
         float  sx = ox + i * bw;
@@ -457,7 +450,6 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
                  static_cast<int>(oy + drawH + 3), 10, DARKGRAY);
     }
 
-    // Y labels
     for (int i = 0; i <= 4; ++i) {
         int   cnt = maxCount * i / 4;
         float sy  = oy + drawH - static_cast<float>(cnt) / maxCount * drawH;
@@ -476,7 +468,6 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     DrawText("Histogram", static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
 }
 
-// ── file dialog ────────────────────────────────────────────────────────────────
 static void drawFileDialog(AppState& state, const char* title,
                            bool& showFlag,
                            std::function<void(const std::string&)> onOk) {
@@ -526,7 +517,6 @@ static void drawFileDialog(AppState& state, const char* title,
     }
 }
 
-// ── main draw entry point ──────────────────────────────────────────────────────
 void drawWindow(AppState& state) {
     ClearBackground(LIGHTGRAY);
 
@@ -544,7 +534,6 @@ void drawWindow(AppState& state) {
     drawSignalPlot(state, plotRect);
     drawHistogram(state,  histRect);
 
-    // ── File dialogs ──────────────────────────────────────────────────────────
     drawFileDialog(state, "Save Signal — enter filename:", state.showSaveDialog,
         [&](const std::string& path) {
             if (state.currentSignal) {
