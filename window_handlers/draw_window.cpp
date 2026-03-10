@@ -463,8 +463,10 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     }
 
     const float PAD_L = 55.0f, PAD_R = 10.0f, PAD_T = 18.0f, PAD_B = 30.0f;
+    
     float drawW = histRect.width  - PAD_L - PAD_R;
     float drawH = histRect.height - PAD_T - PAD_B;
+
     float ox = histRect.x + PAD_L;
     float oy = histRect.y + PAD_T;
 
@@ -472,7 +474,7 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
 
     double yMin = *std::min_element(sig->samples.begin(), sig->samples.end());
     double yMax = *std::max_element(sig->samples.begin(), sig->samples.end());
-    
+
     if (yMax - yMin < 1e-12) {
         yMin -= 1.0; 
         yMax += 1.0; 
