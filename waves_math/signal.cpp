@@ -11,12 +11,14 @@ void Signal::generate() {
         }
         for (int n = params.sampleStart; n < params.sampleStart + numSamples; ++n) {
             double t = static_cast<double>(n) / params.samplingFreq;
+
             times.push_back(t);
             samples.push_back(computeValue(t));
         }
     } else {
-        double t2   = params.startTime + params.duration;
+        double t2 = params.startTime + params.duration;
         double step = 1.0 / params.samplingFreq;
+        
         for (double t = params.startTime; t <= t2 + step * 0.5; t += step) {
             times.push_back(t);
             samples.push_back(computeValue(t));
