@@ -20,6 +20,7 @@ int main() {
     InitWindow(SCREEN_W, SCREEN_H, "WaveSimulator — Digital Signal Processing");
     
     SetTargetFPS(60);
+    initDrawFont();
 
     AppState state;
     state.init();
@@ -36,6 +37,7 @@ int main() {
         EndDrawing();
     }
 
+    cleanupDrawFont();
     CloseWindow();
     return 0;
 }
