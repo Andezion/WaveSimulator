@@ -133,9 +133,9 @@ static void drawLeftPanel(AppState& state) {
     };
 
     SignalType t = state.selectedType;
-    bool needPeriod  = (t==SignalType::S3||t==SignalType::S4||t==SignalType::S5||
+    bool needPeriod = (t == SignalType::S3 || t == SignalType::S4 || t == SignalType::S5||
                         t==SignalType::S6||t==SignalType::S7||t==SignalType::S8);
-    bool needKw      = (t==SignalType::S6||t==SignalType::S7||t==SignalType::S8);
+    bool needKw = (t==SignalType::S6||t==SignalType::S7||t==SignalType::S8);
     bool needTs      = (t==SignalType::S9);
     bool needSamples = (t==SignalType::S10);
     bool needFreq    = (t!=SignalType::S10);
