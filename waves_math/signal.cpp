@@ -6,7 +6,9 @@ void Signal::generate() {
 
     if (isDiscrete()) {
         int numSamples = static_cast<int>(params.duration * params.samplingFreq);
-        if (numSamples <= 0) numSamples = 1;
+        if (numSamples <= 0) { 
+            numSamples = 1;
+        }
         for (int n = params.sampleStart; n < params.sampleStart + numSamples; ++n) {
             double t = static_cast<double>(n) / params.samplingFreq;
             times.push_back(t);
