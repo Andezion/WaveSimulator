@@ -113,11 +113,17 @@ double Signal::rms() const {
 }
 
 double Signal::variance() const {
-    if (samples.empty()) return 0.0;
+    if (samples.empty()) {
+        return 0.0;
+    }
+
     double m = mean();
     auto [s, e] = effectiveRange();
     int count = e - s + 1;
-    if (count <= 0) return 0.0;
+    
+    if (count <= 0) {
+        return 0.0;
+    }
     double sum = 0.0;
     for (int i = s; i <= e; ++i) {
         double diff = samples[i] - m;
