@@ -9,6 +9,36 @@
 #include <functional>
 #include <string>
 
+static Font g_font = {};
+static bool g_fontLoaded = false;
+
+void initDrawFont() {
+    g_font = LoadFontEx("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf",
+                        20, nullptr, 0);
+    g_fontLoaded = (g_font.texture.id > 0);
+}
+
+void cleanupDrawFont() {
+    if (g_fontLoaded) {
+        UnloadFont(g_font);
+    }
+}
+
+static void drawText(const char* text, int x, int y, int size, Color color) {
+    if (g_fontLoaded) {
+        DrawTextEx(g_font, text, {(float)x, (float)y}, (float)size, 1.0f, color);
+    } else {
+        drawText(text, x, y, size, color);
+    }
+}
+
+static int measureText(const char* text, int size) {
+    if (g_fontLoaded) {
+        return static_cast<int>(MeasureTextEx(g_font, text, static_cast<float>(size), 1.0f).x);
+    }
+    return measureText(text, size);
+}
+
 static const Color COL_PANEL = {230, 230, 230, 255};
 static const Color COL_PLOT_BG = WHITE;
 static const Color COL_SIGNAL = RED;
@@ -29,8 +59,8 @@ static void drawButton(Rectangle r, const char* label, bool active) {
     DrawRectangleRec(r, bg);
     DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
 
-    int tw = MeasureText(label, FONT_SZ);
-    DrawText(label,
+    int tw = measureText(label, FONT_SZ);
+    drawText(label,
              static_cast<int>(r.x + (r.width  - tw) / 2),
              static_cast<int>(r.y + (r.height - FONT_SZ) / 2),
              FONT_SZ, active ? DARKBLUE : DARKGRAY);
@@ -58,14 +88,14 @@ static void drawTextInput(AppState& state, int idx,
     TextInput& ti = state.paramInputs[static_cast<size_t>(idx)];
     bool focused  = (state.focusedInput == idx);
 
-    DrawText(label,
+    drawText(label,
              static_cast<int>(r.x),
              static_cast<int>(r.y - 16),
              FONT_SZ, DARKGRAY);
 
     DrawRectangleRec(r, focused ? Color{255, 255, 220, 255} : WHITE);
     DrawRectangleLinesEx(r, 1.0f, focused ? BLUE : COL_BTN_BORDER);
-    DrawText(ti.buf,
+    drawText(ti.buf,
              static_cast<int>(r.x + 4),
              static_cast<int>(r.y + (r.height - FONT_SZ) / 2),
              FONT_SZ, BLACK);
@@ -73,7 +103,7 @@ static void drawTextInput(AppState& state, int idx,
     if (focused) {
         double t = GetTime();
         if ((t - std::floor(t)) < 0.5) {
-            int cx = static_cast<int>(r.x + 4) + MeasureText(ti.buf, FONT_SZ);
+            int cx = static_cast<int>(r.x + 4) + measureText(ti.buf, FONT_SZ);
             DrawLine(cx, static_cast<int>(r.y + 4),
                      cx, static_cast<int>(r.y + r.height - 4), BLACK);
         }
@@ -100,7 +130,7 @@ static void drawLeftPanel(AppState& state) {
     float bh = 22.0f;
     float bw4 = (fw - 3.0f * 4.0f) / 4.0f;   
 
-    DrawText("Signal Type:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
+    drawText("Signal Type:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
 
     const char* sigLabels[11] = {"S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11"};
@@ -162,7 +192,7 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 34.0f;
 
-    DrawText("Histogram bins:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
+    drawText("Histogram bins:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
     int binOpts[4] = {5,10,15,20};
     float bbw = (fw - 9.0f) / 4.0f;
@@ -189,25 +219,25 @@ static void drawLeftPanel(AppState& state) {
         float tx = statsRect.x + 4, ty = statsRect.y + 4;
         const int fs = 13;
         if (!state.statsValid) {
-            DrawText("No stats — generate a signal first",
+            drawText("No stats — generate a signal first",
                      static_cast<int>(tx), static_cast<int>(ty), fs, GRAY);
         } else {
             char buf[64];
             snprintf(buf, sizeof(buf), "Mean:     %+.5g", state.statMean);
-            DrawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
+            drawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
             snprintf(buf, sizeof(buf), "|Mean|:   %.5g",  state.statAbsMean);
-            DrawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
+            drawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
             snprintf(buf, sizeof(buf), "RMS:      %.5g",  state.statRms);
-            DrawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
+            drawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
             snprintf(buf, sizeof(buf), "Variance: %.5g",  state.statVar);
-            DrawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
+            drawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK); ty += fs+3;
             snprintf(buf, sizeof(buf), "Power:    %.5g",  state.statPower);
-            DrawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK);
+            drawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK);
         }
     }
     y += 108.0f;
 
-    DrawText("File:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
+    drawText("File:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
 
     float hw = (fw - 4.0f) / 2.0f;
@@ -231,7 +261,7 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 32.0f;
 
-    DrawText("Signal Operations:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
+    drawText("Signal Operations:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
 
     {
@@ -242,7 +272,7 @@ static void drawLeftPanel(AppState& state) {
         Rectangle lb = {x + fw - 52.0f, y, 52.0f, 22.0f};
         DrawRectangleRec(r, WHITE);
         DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
-        DrawText(lbl, static_cast<int>(r.x+3), static_cast<int>(r.y+4), 11, DARKGRAY);
+        drawText(lbl, static_cast<int>(r.x+3), static_cast<int>(r.y+4), 11, DARKGRAY);
         drawButton(lb, "Load", false);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
@@ -261,7 +291,7 @@ static void drawLeftPanel(AppState& state) {
         Rectangle lb = {x + fw - 52.0f, y, 52.0f, 22.0f};
         DrawRectangleRec(r, WHITE);
         DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
-        DrawText(lbl, static_cast<int>(r.x+3), static_cast<int>(r.y+4), 11, DARKGRAY);
+        drawText(lbl, static_cast<int>(r.x+3), static_cast<int>(r.y+4), 11, DARKGRAY);
         drawButton(lb, "Load", false);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
@@ -300,7 +330,7 @@ static void drawLeftPanel(AppState& state) {
     if (!state.statusMsg.empty()) {
         Color col = (state.statusMsg.find("Error") != std::string::npos ||
                      state.statusMsg.find("error") != std::string::npos) ? RED : DARKGREEN;
-        DrawText(state.statusMsg.c_str(),
+        drawText(state.statusMsg.c_str(),
                  static_cast<int>(x), static_cast<int>(y), 12, col);
     }
 }
@@ -314,7 +344,7 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
                 : nullptr;
 
     if (!sig || sig->samples.empty()) {
-        DrawText("No signal — press [ Generate Signal ]",
+        drawText("No signal — press [ Generate Signal ]",
                  static_cast<int>(plotRect.x + 20),
                  static_cast<int>(plotRect.y + plotRect.height / 2 - 10),
                  FONT_SZ, GRAY);
@@ -411,9 +441,9 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
         }
 
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", v);
-        int tw = MeasureText(lbl, 11);
+        int tw = measureText(lbl, 11);
 
-        DrawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 6), 11, DARKGRAY);
+        drawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 6), 11, DARKGRAY);
         DrawLine(static_cast<int>(ox - 3), static_cast<int>(sy),
                  static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
     }
@@ -423,9 +453,9 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
         float  sx = toScreenX(t);
 
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", t);
-        int tw = MeasureText(lbl, 11);
+        int tw = measureText(lbl, 11);
 
-        DrawText(lbl, static_cast<int>(sx - tw/2.0f),
+        drawText(lbl, static_cast<int>(sx - tw/2.0f),
                  static_cast<int>(oy + drawH + 4), 11, DARKGRAY);
         DrawLine(static_cast<int>(sx), static_cast<int>(oy + drawH),
                  static_cast<int>(sx), static_cast<int>(oy + drawH + 3), COL_AXIS);
@@ -439,9 +469,9 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     std::string titleStr = state.resultSignal  ? "Result Signal"
                          : state.currentSignal ? state.currentSignal->getName()
                          : std::string{};
-    DrawText(titleStr.c_str(), static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
+    drawText(titleStr.c_str(), static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
 
-    DrawText("Mouse wheel: scroll  |  Ctrl+wheel: zoom",
+    drawText("Mouse wheel: scroll  |  Ctrl+wheel: zoom",
              static_cast<int>(ox + drawW - 240),
              static_cast<int>(oy + drawH + 16), 10, GRAY);
 }
@@ -455,7 +485,7 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
                 : nullptr;
 
     if (!sig || sig->samples.empty()) {
-        DrawText("Histogram: no signal",
+        drawText("Histogram: no signal",
                  static_cast<int>(histRect.x + 10),
                  static_cast<int>(histRect.y + 10),
                  FONT_SZ, GRAY);
@@ -512,9 +542,9 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
         float  sx = ox + i * bw;
 
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.2g", v);
-        int tw = MeasureText(lbl, 10);
+        int tw = measureText(lbl, 10);
 
-        DrawText(lbl, static_cast<int>(sx - tw/2.0f),
+        drawText(lbl, static_cast<int>(sx - tw/2.0f),
                  static_cast<int>(oy + drawH + 3), 10, DARKGRAY);
     }
 
@@ -523,9 +553,9 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
         float sy  = oy + drawH - static_cast<float>(cnt) / maxCount * drawH;
 
         char lbl[16]; snprintf(lbl, sizeof(lbl), "%d", cnt);
-        int tw = MeasureText(lbl, 10);
+        int tw = measureText(lbl, 10);
 
-        DrawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 5), 10, DARKGRAY);
+        drawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 5), 10, DARKGRAY);
         DrawLine(static_cast<int>(ox - 3), static_cast<int>(sy),
                  static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
     }
@@ -535,7 +565,7 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     DrawLine(static_cast<int>(ox), static_cast<int>(oy + drawH),
              static_cast<int>(ox + drawW), static_cast<int>(oy + drawH), COL_AXIS);
 
-    DrawText("Histogram", static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
+    drawText("Histogram", static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
 }
 
 static void drawFileDialog(AppState& state, const char* title,
@@ -548,13 +578,13 @@ static void drawFileDialog(AppState& state, const char* title,
     Rectangle dlg = {280, 240, 520, 140};
     DrawRectangleRec(dlg, Color{240, 240, 240, 255});
     DrawRectangleLinesEx(dlg, 2.0f, DARKGRAY);
-    DrawText(title, static_cast<int>(dlg.x + 10), static_cast<int>(dlg.y + 10), FONT_SZ, BLACK);
+    drawText(title, static_cast<int>(dlg.x + 10), static_cast<int>(dlg.y + 10), FONT_SZ, BLACK);
 
     TextInput& ti = state.fileNameInput;
     Rectangle inp = {dlg.x + 10, dlg.y + 40, dlg.width - 20, 28};
     DrawRectangleRec(inp, WHITE);
     DrawRectangleLinesEx(inp, 1.5f, BLUE);
-    DrawText(ti.buf,
+    drawText(ti.buf,
              static_cast<int>(inp.x + 4),
              static_cast<int>(inp.y + 6),
              FONT_SZ, BLACK);
