@@ -47,7 +47,9 @@ std::pair<int,int> Signal::effectiveRange() const {
         numPeriods = 1;
     }
     int endIdx = numPeriods * samplesPerPeriod;
-    if (endIdx > total) endIdx = total;
+    if (endIdx > total) {
+        endIdx = total;
+    }
     return {0, endIdx - 1};
 }
 
