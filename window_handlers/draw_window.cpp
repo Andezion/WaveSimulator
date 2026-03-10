@@ -25,8 +25,10 @@ void processSignalOperation(AppState& state);
 
 static void drawButton(Rectangle r, const char* label, bool active) {
     Color bg = active ? COL_BTN_ACTIVE : COL_BTN_NORMAL;
+
     DrawRectangleRec(r, bg);
     DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
+
     int tw = MeasureText(label, FONT_SZ);
     DrawText(label,
              static_cast<int>(r.x + (r.width  - tw) / 2),
@@ -45,7 +47,9 @@ static void handleTextInputKey(TextInput& ti) {
     }
     if (IsKeyPressed(KEY_BACKSPACE)) {
         int len = static_cast<int>(strlen(ti.buf));
-        if (len > 0) ti.buf[len - 1] = '\0';
+        if (len > 0) {
+            ti.buf[len - 1] = '\0';
+        }
     }
 }
 
@@ -78,8 +82,9 @@ static void drawTextInput(AppState& state, int idx,
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
-        if (CheckCollisionPointRec(mp, r))
+        if (CheckCollisionPointRec(mp, r)) {
             state.focusedInput = idx;
+        }
     }
 }
 
