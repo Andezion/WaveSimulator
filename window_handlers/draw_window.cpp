@@ -342,17 +342,19 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
 
     double tMin = sig->times.front();
     double tMax = sig->times.back();
-    
+
     double tRange = tMax - tMin;
     if (tRange < 1e-12) {
         tRange = 1.0;
     }
 
-    float zoom            = state.plotZoom > 0.01f ? state.plotZoom : 1.0f;
+    float zoom = state.plotZoom > 0.01f ? state.plotZoom : 1.0f;
+    
     float visibleDuration = static_cast<float>(tRange) / zoom;
-    float scrollT         = state.plotScrollX / drawW * static_cast<float>(tRange) / zoom;
-    double tViewMin       = tMin + scrollT;
-    double tViewMax       = tViewMin + visibleDuration;
+    float scrollT = state.plotScrollX / drawW * static_cast<float>(tRange) / zoom;
+
+    double tViewMin = tMin + scrollT;
+    double tViewMax = tViewMin + visibleDuration;
     (void)tViewMax;
 
     BeginScissorMode(static_cast<int>(ox), static_cast<int>(oy),
