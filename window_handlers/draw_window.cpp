@@ -141,23 +141,24 @@ static void drawLeftPanel(AppState& state) {
     bool needFreq = (t != SignalType::S10);
     bool needProb = (t == SignalType::S11);
 
-    field(PI_AMPLITUDE,      "Amplitude (A):",      true);
-    field(PI_START_TIME,     "Start Time (t1):",    true);
-    field(PI_DURATION,       "Duration (d):",       true);
-    field(PI_PERIOD,         "Period (T):",          needPeriod);
-    field(PI_DUTY_CYCLE,     "Duty Cycle (kw):",    needKw);
-    field(PI_SAMPLING_FREQ,  "Sampling Freq (f):",  needFreq);
-    field(PI_STEP_TIME,      "Step Time (ts):",     needTs);
-    field(PI_SAMPLE_START,   "Sample Start (n1):",  needSamples);
-    field(PI_SAMPLE_STEP,    "Impulse Idx (ns):",   needSamples);
-    field(PI_PROBABILITY,    "Probability (p):",    needProb);
+    field(PI_AMPLITUDE,"Amplitude (A):",true);
+    field(PI_START_TIME,"Start Time (t1):",true);
+    field(PI_DURATION,"Duration (d):",true);
+    field(PI_PERIOD,"Period (T):",needPeriod);
+    field(PI_DUTY_CYCLE,"Duty Cycle (kw):",needKw);
+    field(PI_SAMPLING_FREQ,"Sampling Freq (f):",needFreq);
+    field(PI_STEP_TIME,"Step Time (ts):",needTs);
+    field(PI_SAMPLE_START,"Sample Start (n1):",needSamples);
+    field(PI_SAMPLE_STEP,"Impulse Idx (ns):",needSamples);
+    field(PI_PROBABILITY,"Probability (p):",needProb);
 
     Rectangle genBtn = {x, y, fw, 28.0f};
     drawButton(genBtn, "[ Generate Signal ]", false);
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
-        if (CheckCollisionPointRec(mp, genBtn))
+        if (CheckCollisionPointRec(mp, genBtn)) {
             state.generateSignal();
+        }
     }
     y += 34.0f;
 
@@ -171,7 +172,9 @@ static void drawLeftPanel(AppState& state) {
         drawButton(br, lbl, state.histBins == binOpts[i]);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
-            if (CheckCollisionPointRec(mp, br)) state.histBins = binOpts[i];
+            if (CheckCollisionPointRec(mp, br)) {
+                state.histBins = binOpts[i];
+            }
         }
     }
     y += bh + 8.0f;
