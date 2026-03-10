@@ -463,7 +463,7 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     }
 
     const float PAD_L = 55.0f, PAD_R = 10.0f, PAD_T = 18.0f, PAD_B = 30.0f;
-    
+
     float drawW = histRect.width  - PAD_L - PAD_R;
     float drawH = histRect.height - PAD_T - PAD_B;
 
@@ -485,12 +485,19 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     std::vector<int> counts(static_cast<size_t>(bins), 0);
     for (double v : sig->samples) {
         int b = static_cast<int>((v - yMin) / binW);
-        if (b < 0) b = 0;
-        if (b >= bins) b = bins - 1;
+        if (b < 0) {
+            b = 0;
+        }
+        if (b >= bins) {
+            b = bins - 1;
+        }
         counts[static_cast<size_t>(b)]++;
     }
+
     int maxCount = *std::max_element(counts.begin(), counts.end());
-    if (maxCount == 0) maxCount = 1;
+    if (maxCount == 0) {
+        maxCount = 1;
+    }
 
     float bw = drawW / bins;
     for (int i = 0; i < bins; ++i) {
@@ -503,8 +510,10 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     for (int i = 0; i <= bins; ++i) {
         double v  = yMin + i * binW;
         float  sx = ox + i * bw;
+
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.2g", v);
         int tw = MeasureText(lbl, 10);
+
         DrawText(lbl, static_cast<int>(sx - tw/2.0f),
                  static_cast<int>(oy + drawH + 3), 10, DARKGRAY);
     }
@@ -512,8 +521,10 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
     for (int i = 0; i <= 4; ++i) {
         int   cnt = maxCount * i / 4;
         float sy  = oy + drawH - static_cast<float>(cnt) / maxCount * drawH;
+
         char lbl[16]; snprintf(lbl, sizeof(lbl), "%d", cnt);
         int tw = MeasureText(lbl, 10);
+
         DrawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 5), 10, DARKGRAY);
         DrawLine(static_cast<int>(ox - 3), static_cast<int>(sy),
                  static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
@@ -530,7 +541,9 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
 static void drawFileDialog(AppState& state, const char* title,
                            bool& showFlag,
                            std::function<void(const std::string&)> onOk) {
-    if (!showFlag) return;
+    if (!showFlag) {
+        return;
+    }
 
     Rectangle dlg = {280, 240, 520, 140};
     DrawRectangleRec(dlg, Color{240, 240, 240, 255});
