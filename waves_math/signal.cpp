@@ -1,4 +1,4 @@
-#include "waves_math/signal.h"
+#include "signal.h"
 
 void Signal::generate() {
     samples.clear();
@@ -120,7 +120,7 @@ double Signal::variance() const {
     double m = mean();
     auto [s, e] = effectiveRange();
     int count = e - s + 1;
-    
+
     if (count <= 0) {
         return 0.0;
     }
