@@ -10,8 +10,8 @@ void clampPlotScroll(AppState& state, float plotDrawWidth);
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
 
-    const int SCREEN_W = 1280;
-    const int SCREEN_H = 720;
+    const int SCREEN_W = 1400;
+    const int SCREEN_H = 800;
     const int PANEL_W  = 320;
     const int PLOT_PAD_L = 55; 
     const int PLOT_PAD_R = 10;
