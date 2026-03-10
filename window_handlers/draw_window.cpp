@@ -9,22 +9,16 @@
 #include <functional>
 #include <string>
 
-static const Color COL_PANEL      = {230, 230, 230, 255};
-static const Color COL_PLOT_BG    = WHITE;
-static const Color COL_SIGNAL     = RED;
-static const Color COL_AXIS       = DARKGRAY;
+static const Color COL_PANEL = {230, 230, 230, 255};
+static const Color COL_PLOT_BG = WHITE;
+static const Color COL_SIGNAL = RED;
+static const Color COL_AXIS = DARKGRAY;
 static const Color COL_BTN_NORMAL = {245, 245, 245, 255};
 static const Color COL_BTN_ACTIVE = {180, 210, 255, 255};
 static const Color COL_BTN_BORDER = {160, 160, 160, 255};
-static const Color COL_HIST       = { 80, 160, 220, 255};
+static const Color COL_HIST = { 80, 160, 220, 255};
 
-static const int SCREEN_W = 1280;
-static const int SCREEN_H = 720;
 static const int PANEL_W  = 320;
-static const int RIGHT_X  = PANEL_W;
-static const int RIGHT_W  = SCREEN_W - PANEL_W;
-static const int PLOT_H   = static_cast<int>(SCREEN_H * 0.60f);
-static const int HIST_H   = SCREEN_H - PLOT_H;
 static const int FONT_SZ  = 14;
 
 void processSignalOperation(AppState& state);
@@ -90,9 +84,10 @@ static void drawTextInput(AppState& state, int idx,
 }
 
 static void drawLeftPanel(AppState& state) {
-    Rectangle panel = {0, 0, static_cast<float>(PANEL_W), static_cast<float>(SCREEN_H)};
+    int screenH = GetScreenHeight();
+    Rectangle panel = {0, 0, static_cast<float>(PANEL_W), static_cast<float>(screenH)};
     DrawRectangleRec(panel, COL_PANEL);
-    DrawLine(PANEL_W, 0, PANEL_W, SCREEN_H, COL_BTN_BORDER);
+    DrawLine(PANEL_W, 0, PANEL_W, screenH, COL_BTN_BORDER);
 
     float x   = 6.0f;
     float y   = 6.0f;
@@ -520,15 +515,22 @@ static void drawFileDialog(AppState& state, const char* title,
 void drawWindow(AppState& state) {
     ClearBackground(LIGHTGRAY);
 
+    int screenW = GetScreenWidth();
+    int screenH = GetScreenHeight();
+    int rightX  = PANEL_W;
+    int rightW  = screenW - PANEL_W;
+    int plotH   = static_cast<int>(screenH * 0.60f);
+    int histH   = screenH - plotH;
+
     drawLeftPanel(state);
 
     Rectangle plotRect = {
-        static_cast<float>(RIGHT_X), 0.0f,
-        static_cast<float>(RIGHT_W), static_cast<float>(PLOT_H)
+        static_cast<float>(rightX), 0.0f,
+        static_cast<float>(rightW), static_cast<float>(plotH)
     };
     Rectangle histRect = {
-        static_cast<float>(RIGHT_X), static_cast<float>(PLOT_H),
-        static_cast<float>(RIGHT_W), static_cast<float>(HIST_H)
+        static_cast<float>(rightX), static_cast<float>(plotH),
+        static_cast<float>(rightW), static_cast<float>(histH)
     };
 
     drawSignalPlot(state, plotRect);
