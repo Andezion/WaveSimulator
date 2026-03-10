@@ -94,10 +94,10 @@ static void drawLeftPanel(AppState& state) {
     DrawRectangleRec(panel, COL_PANEL);
     DrawLine(PANEL_W, 0, PANEL_W, screenH, COL_BTN_BORDER);
 
-    float x   = 6.0f;
-    float y   = 6.0f;
-    float fw  = PANEL_W - 12.0f;
-    float bh  = 22.0f;
+    float x = 6.0f;
+    float y = 6.0f;
+    float fw = PANEL_W - 12.0f;
+    float bh = 22.0f;
     float bw4 = (fw - 3.0f * 4.0f) / 4.0f;   
 
     DrawText("Signal Type:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
@@ -106,8 +106,10 @@ static void drawLeftPanel(AppState& state) {
     const char* sigLabels[11] = {"S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11"};
     for (int i = 0; i < 11; ++i) {
         int col = i % 4, row = i / 4;
+
         Rectangle br = { x + col*(bw4+4), y + row*(bh+4), bw4, bh };
         SignalType st = static_cast<SignalType>(i + 1);
+
         drawButton(br, sigLabels[i], state.selectedType == st);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
@@ -119,11 +121,13 @@ static void drawLeftPanel(AppState& state) {
     }
     y += 3.0f * (bh + 4.0f) + 8.0f;
 
-    float fh      = 22.0f;
+    float fh = 22.0f;
     float fy_step = 40.0f;
 
     auto field = [&](int idx, const char* label, bool show) {
-        if (!show) return;
+        if (!show) {
+            return;
+        }
         drawTextInput(state, idx, {x, y, fw, fh}, label);
         y += fy_step;
     };
