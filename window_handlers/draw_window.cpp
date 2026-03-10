@@ -168,8 +168,11 @@ static void drawLeftPanel(AppState& state) {
     float bbw = (fw - 9.0f) / 4.0f;
     for (int i = 0; i < 4; ++i) {
         char lbl[8]; snprintf(lbl, sizeof(lbl), "%d", binOpts[i]);
-        Rectangle br = { x + i*(bbw+3), y, bbw, bh };
+
+        Rectangle br = { x + i * (bbw + 3), y, bbw, bh };
+
         drawButton(br, lbl, state.histBins == binOpts[i]);
+
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
             if (CheckCollisionPointRec(mp, br)) {
@@ -206,15 +209,25 @@ static void drawLeftPanel(AppState& state) {
 
     DrawText("File:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
+
     float hw = (fw - 4.0f) / 2.0f;
+
     Rectangle saveBtn = {x,      y, hw, 26.0f};
     Rectangle loadBtn = {x+hw+4, y, hw, 26.0f};
+
     drawButton(saveBtn, "Save Signal", false);
     drawButton(loadBtn, "Load Signal", false);
+
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
-        if (CheckCollisionPointRec(mp, saveBtn)) { state.showSaveDialog = true; memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); }
-        if (CheckCollisionPointRec(mp, loadBtn)) { state.showLoadDialog = true; memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); }
+        if (CheckCollisionPointRec(mp, saveBtn)) { 
+            state.showSaveDialog = true; 
+            memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); 
+        }
+        if (CheckCollisionPointRec(mp, loadBtn)) { 
+            state.showLoadDialog = true; 
+            memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); 
+        }
     }
     y += 32.0f;
 
@@ -233,7 +246,10 @@ static void drawLeftPanel(AppState& state) {
         drawButton(lb, "Load", false);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
-            if (CheckCollisionPointRec(mp, lb)) { state.showOp1Dialog = true; memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); }
+            if (CheckCollisionPointRec(mp, lb)) { 
+                state.showOp1Dialog = true; 
+                memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); 
+            }
         }
         y += 26.0f;
     }
@@ -249,7 +265,10 @@ static void drawLeftPanel(AppState& state) {
         drawButton(lb, "Load", false);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
-            if (CheckCollisionPointRec(mp, lb)) { state.showOp2Dialog = true; memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); }
+            if (CheckCollisionPointRec(mp, lb)) { 
+                state.showOp2Dialog = true; 
+                memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf)); 
+            }
         }
         y += 26.0f;
     }
@@ -257,12 +276,13 @@ static void drawLeftPanel(AppState& state) {
     const char* opLabels[4] = {"+", "-", "x", "/"};
     float opbw = (fw - 9.0f) / 4.0f;
     for (int i = 0; i < 4; ++i) {
-        Rectangle br = {x + i*(opbw+3), y, opbw, bh};
+        Rectangle br = {x + i * (opbw + 3), y, opbw, bh};
         drawButton(br, opLabels[i], state.selectedOp == static_cast<Operation>(i));
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
-            if (CheckCollisionPointRec(mp, br))
+            if (CheckCollisionPointRec(mp, br)) {
                 state.selectedOp = static_cast<Operation>(i);
+            }
         }
     }
     y += bh + 6.0f;
