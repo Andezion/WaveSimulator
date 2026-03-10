@@ -340,10 +340,13 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     }
     double yRange = yMax - yMin;
 
-    double tMin   = sig->times.front();
-    double tMax   = sig->times.back();
+    double tMin = sig->times.front();
+    double tMax = sig->times.back();
+    
     double tRange = tMax - tMin;
-    if (tRange < 1e-12) tRange = 1.0;
+    if (tRange < 1e-12) {
+        tRange = 1.0;
+    }
 
     float zoom            = state.plotZoom > 0.01f ? state.plotZoom : 1.0f;
     float visibleDuration = static_cast<float>(tRange) / zoom;
