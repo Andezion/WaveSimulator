@@ -12,12 +12,13 @@ int main() {
 
     const int SCREEN_W = 1400;
     const int SCREEN_H = 800;
-    const int PANEL_W  = 320;
+    const int PANEL_W = 320;
     const int PLOT_PAD_L = 55; 
     const int PLOT_PAD_R = 10;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(SCREEN_W, SCREEN_H, "WaveSimulator — Digital Signal Processing");
+    
     SetTargetFPS(60);
 
     AppState state;
