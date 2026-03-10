@@ -76,11 +76,19 @@ double Signal::absMean() const {
     if (samples.empty()) {
         return 0.0;
     }
+
     auto [s, e] = effectiveRange();
     int count = e - s + 1;
-    if (count <= 0) return 0.0;
+
+    if (count <= 0) {
+        return 0.0;
+    }
+
     double sum = 0.0;
-    for (int i = s; i <= e; ++i) sum += std::abs(samples[i]);
+
+    for (int i = s; i <= e; ++i) {
+        sum += std::abs(samples[i]);
+    }
     return sum / count;
 }
 
