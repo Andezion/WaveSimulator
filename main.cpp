@@ -25,7 +25,7 @@ int main() {
 
     while (!WindowShouldClose()) {
         int plotX = PANEL_W + PLOT_PAD_L;
-        int plotW = SCREEN_W - PANEL_W - PLOT_PAD_L - PLOT_PAD_R;
+        int plotW = GetScreenWidth() - PANEL_W - PLOT_PAD_L - PLOT_PAD_R;
 
         processInput(state, plotX, plotW);
         clampPlotScroll(state, static_cast<float>(plotW));
