@@ -424,7 +424,7 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
 
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", t);
         int tw = MeasureText(lbl, 11);
-        
+
         DrawText(lbl, static_cast<int>(sx - tw/2.0f),
                  static_cast<int>(oy + drawH + 4), 11, DARKGRAY);
         DrawLine(static_cast<int>(sx), static_cast<int>(oy + drawH),
@@ -472,7 +472,12 @@ static void drawHistogram(AppState& state, Rectangle histRect) {
 
     double yMin = *std::min_element(sig->samples.begin(), sig->samples.end());
     double yMax = *std::max_element(sig->samples.begin(), sig->samples.end());
-    if (yMax - yMin < 1e-12) { yMin -= 1.0; yMax += 1.0; }
+    
+    if (yMax - yMin < 1e-12) {
+        yMin -= 1.0; 
+        yMax += 1.0; 
+    }
+
     double binW = (yMax - yMin) / bins;
 
     std::vector<int> counts(static_cast<size_t>(bins), 0);
