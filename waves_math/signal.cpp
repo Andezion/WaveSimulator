@@ -18,7 +18,7 @@ void Signal::generate() {
     } else {
         double t2 = params.startTime + params.duration;
         double step = 1.0 / params.samplingFreq;
-        
+
         for (double t = params.startTime; t <= t2 + step * 0.5; t += step) {
             times.push_back(t);
             samples.push_back(computeValue(t));
@@ -27,16 +27,25 @@ void Signal::generate() {
 }
 
 std::pair<int,int> Signal::effectiveRange() const {
-    if (samples.empty()) return {0, 0};
+    if (samples.empty()) {
+        return {0, 0};
+    }
     if (!isPeriodic() || params.period <= 0.0) {
         return {0, static_cast<int>(samples.size()) - 1};
     }
+
     int total = static_cast<int>(samples.size());
     double step = 1.0 / params.samplingFreq;
     int samplesPerPeriod = static_cast<int>(std::round(params.period / step));
-    if (samplesPerPeriod < 1) samplesPerPeriod = 1;
+
+    if (samplesPerPeriod < 1) {samplesPerPeriod = 1;
+        samplesPerPeriod = 1;
+    }
+
     int numPeriods = total / samplesPerPeriod;
-    if (numPeriods < 1) numPeriods = 1;
+    if (numPeriods < 1) { 
+        numPeriods = 1;
+    }
     int endIdx = numPeriods * samplesPerPeriod;
     if (endIdx > total) endIdx = total;
     return {0, endIdx - 1};
