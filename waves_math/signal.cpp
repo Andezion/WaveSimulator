@@ -54,17 +54,28 @@ std::pair<int,int> Signal::effectiveRange() const {
 }
 
 double Signal::mean() const {
-    if (samples.empty()) return 0.0;
+    if (samples.empty()) {
+        return 0.0;
+    }
+
     auto [s, e] = effectiveRange();
     int count = e - s + 1;
-    if (count <= 0) return 0.0;
+
+    if (count <= 0) {
+        return 0.0;
+    }
+
     double sum = 0.0;
-    for (int i = s; i <= e; ++i) sum += samples[i];
+    for (int i = s; i <= e; ++i) {
+        sum += samples[i];
+    }
     return sum / count;
 }
 
 double Signal::absMean() const {
-    if (samples.empty()) return 0.0;
+    if (samples.empty()) {
+        return 0.0;
+    }
     auto [s, e] = effectiveRange();
     int count = e - s + 1;
     if (count <= 0) return 0.0;
