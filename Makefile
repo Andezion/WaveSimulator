@@ -5,7 +5,6 @@ LDFLAGS  = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 TARGET  = WaveSimulator
 SRCDIR  = .
 
-# Collect all .cpp files, excluding the build directory
 SOURCES := $(shell find $(SRCDIR) -name "*.cpp" -not -path "*/build/*" -not -path "*/.git/*")
 OBJECTS := $(SOURCES:.cpp=.o)
 
