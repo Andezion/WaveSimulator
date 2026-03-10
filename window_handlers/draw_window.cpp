@@ -291,8 +291,9 @@ static void drawLeftPanel(AppState& state) {
     drawButton(computeBtn, "[ Compute ]", false);
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
-        if (CheckCollisionPointRec(mp, computeBtn))
+        if (CheckCollisionPointRec(mp, computeBtn)) {
             processSignalOperation(state);
+        }
     }
     y += 32.0f;
 
@@ -321,8 +322,10 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     }
 
     const float PAD_L = 55.0f, PAD_R = 10.0f, PAD_T = 18.0f, PAD_B = 30.0f;
+
     float drawW = plotRect.width  - PAD_L - PAD_R;
     float drawH = plotRect.height - PAD_T - PAD_B;
+
     float ox = plotRect.x + PAD_L;
     float oy = plotRect.y + PAD_T;
 
@@ -330,7 +333,11 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
 
     double yMin = *std::min_element(sig->samples.begin(), sig->samples.end());
     double yMax = *std::max_element(sig->samples.begin(), sig->samples.end());
-    if (yMax - yMin < 1e-12) { yMin -= 1.0; yMax += 1.0; }
+
+    if (yMax - yMin < 1e-12) { 
+        yMin -= 1.0; 
+        yMax += 1.0; 
+    }
     double yRange = yMax - yMin;
 
     double tMin   = sig->times.front();
