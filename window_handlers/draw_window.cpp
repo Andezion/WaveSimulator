@@ -349,7 +349,7 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     }
 
     float zoom = state.plotZoom > 0.01f ? state.plotZoom : 1.0f;
-    
+
     float visibleDuration = static_cast<float>(tRange) / zoom;
     float scrollT = state.plotScrollX / drawW * static_cast<float>(tRange) / zoom;
 
@@ -377,7 +377,10 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
         for (int i = 0; i < n; ++i) {
             float sx = toScreenX(sig->times[static_cast<size_t>(i)]);
             float sy = toScreenY(sig->samples[static_cast<size_t>(i)]);
-            if (sx < ox - 2 || sx > ox + drawW + 2) continue;
+
+            if (sx < ox - 2 || sx > ox + drawW + 2) {
+                continue;
+            }
             DrawLine(static_cast<int>(sx), static_cast<int>(zeroY),
                      static_cast<int>(sx), static_cast<int>(sy), COL_SIGNAL);
             DrawCircle(static_cast<int>(sx), static_cast<int>(sy), 3.0f, COL_SIGNAL);
@@ -388,7 +391,10 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
             float y1 = toScreenY(sig->samples[static_cast<size_t>(i-1)]);
             float x2 = toScreenX(sig->times[static_cast<size_t>(i)]);
             float y2 = toScreenY(sig->samples[static_cast<size_t>(i)]);
-            if (x2 < ox - 1 || x1 > ox + drawW + 1) continue;
+
+            if (x2 < ox - 1 || x1 > ox + drawW + 1) {
+                continue;
+            }
             DrawLine(static_cast<int>(x1), static_cast<int>(y1),
                      static_cast<int>(x2), static_cast<int>(y2), COL_SIGNAL);
         }
@@ -399,9 +405,14 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     for (int i = 0; i <= 5; ++i) {
         double v  = yMin + yRange * i / 5.0;
         float  sy = toScreenY(v);
-        if (sy < oy || sy > oy + drawH) continue;
+
+        if (sy < oy || sy > oy + drawH) {
+            continue;
+        }
+
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", v);
         int tw = MeasureText(lbl, 11);
+
         DrawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 6), 11, DARKGRAY);
         DrawLine(static_cast<int>(ox - 3), static_cast<int>(sy),
                  static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
@@ -410,8 +421,10 @@ static void drawSignalPlot(AppState& state, Rectangle plotRect) {
     for (int i = 0; i <= 6; ++i) {
         double t  = tViewMin + visibleDuration * i / 6.0;
         float  sx = toScreenX(t);
+
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", t);
         int tw = MeasureText(lbl, 11);
+        
         DrawText(lbl, static_cast<int>(sx - tw/2.0f),
                  static_cast<int>(oy + drawH + 4), 11, DARKGRAY);
         DrawLine(static_cast<int>(sx), static_cast<int>(oy + drawH),
