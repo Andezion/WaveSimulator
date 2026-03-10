@@ -1,14 +1,10 @@
 #include "waves_math/signal.h"
-#include <numeric>
-#include <cmath>
-#include <algorithm>
 
 void Signal::generate() {
     samples.clear();
     times.clear();
 
     if (isDiscrete()) {
-        // Discrete signals: iterate n from sampleStart to sampleStart + num_samples
         int numSamples = static_cast<int>(params.duration * params.samplingFreq);
         if (numSamples <= 0) numSamples = 1;
         for (int n = params.sampleStart; n < params.sampleStart + numSamples; ++n) {
@@ -31,7 +27,6 @@ std::pair<int,int> Signal::effectiveRange() const {
     if (!isPeriodic() || params.period <= 0.0) {
         return {0, static_cast<int>(samples.size()) - 1};
     }
-    // Truncate to whole number of periods
     int total = static_cast<int>(samples.size());
     double step = 1.0 / params.samplingFreq;
     int samplesPerPeriod = static_cast<int>(std::round(params.period / step));
@@ -88,7 +83,6 @@ double Signal::variance() const {
 }
 
 double Signal::power() const {
-    // Average power = RMS^2
     double r = rms();
     return r * r;
 }
