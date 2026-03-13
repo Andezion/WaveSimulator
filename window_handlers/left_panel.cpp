@@ -202,13 +202,21 @@ void drawLeftPanel(AppState& state) {
     }
     y += bh + 6.0f;
 
+    bool canCompute = state.opSignal1 && !state.opSignal1->samples.empty() &&
+                      state.opSignal2 && !state.opSignal2->samples.empty();
+    
     Rectangle computeBtn = {x, y, fw, 26.0f};
-    drawButton(computeBtn, "[ Compute ]", false);
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    drawButton(computeBtn, "[ Compute ]", canCompute);
+    if (canCompute && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
         if (CheckCollisionPointRec(mp, computeBtn)) {
             processSignalOperation(state);
         }
+    }
+    
+    if (!canCompute && !state.opFile1Path.empty() && state.opFile2Path.empty()) {
+        drawText("Load both signals to compute",
+                 static_cast<int>(x), static_cast<int>(y + 30), 11, GRAY);
     }
     y += 32.0f;
 
