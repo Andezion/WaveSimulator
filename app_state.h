@@ -49,13 +49,13 @@ struct AppState {
     std::unique_ptr<Signal> opSignal2; // Второй сигнал для операций над сигналами
     std::unique_ptr<Signal> resultSignal; // Результат операции над сигналами (если применимо)
 
-    int histBins = 10;
-    float plotScrollX = 0.0f;
-    float plotZoom = 1.0f;
+    int histBins = 10; // Количество бинов для гистограммы
+    float plotScrollX = 0.0f; // Прокрутка графика по горизонтали
+    float plotZoom = 1.0f; // Масштаб графика (1.0 = 100%)
 
-    std::string statusMsg;
-    std::string opFile1Path;
-    std::string opFile2Path;
+    std::string statusMsg; // Сообщение для отображения в статусной строке (например, ошибки при загрузке/сохранении)
+    std::string opFile1Path; // Путь к первому сигналу для операций над сигналами
+    std::string opFile2Path; // Путь ко второму сигналу для операций над сигналами
 
     double statMean    = 0.0;
     double statAbsMean = 0.0;
