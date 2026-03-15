@@ -15,18 +15,19 @@ struct TextInput {
     bool active  = false;
 };
 
+// Структура для хранения всех параметров сигнала, которые могут быть отредактированы пользователем
 enum ParamIndex {
-    PI_AMPLITUDE    = 0,
-    PI_START_TIME   = 1,
-    PI_DURATION     = 2,
-    PI_PERIOD       = 3,
-    PI_DUTY_CYCLE   = 4,
+    PI_AMPLITUDE = 0,
+    PI_START_TIME = 1,
+    PI_DURATION = 2,
+    PI_PERIOD = 3,
+    PI_DUTY_CYCLE = 4,
     PI_SAMPLING_FREQ= 5,
-    PI_STEP_TIME    = 6,
+    PI_STEP_TIME = 6,
     PI_SAMPLE_START = 7,
-    PI_SAMPLE_STEP  = 8,
-    PI_PROBABILITY  = 9,
-    PI_COUNT        = 10
+    PI_SAMPLE_STEP = 8,
+    PI_PROBABILITY = 9,
+    PI_COUNT = 10
 };
 
 struct AppState {
