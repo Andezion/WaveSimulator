@@ -19,6 +19,7 @@ int main() {
     const int PANEL_W = 320;
     // Отступы для графика внутри правой области
     const int PLOT_PAD_L = 55; 
+    // Отступ справа для графика (для оси и отрисовки текста)
     const int PLOT_PAD_R = 10;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
