@@ -100,12 +100,12 @@ void AppState::updateStats() {
         return;
     }
 
-    statMean    = currentSignal->mean();
+    statMean = currentSignal->mean();
     statAbsMean = currentSignal->absMean();
-    statRms     = currentSignal->rms();
-    statVar     = currentSignal->variance();
-    statPower   = currentSignal->power();
-    statsValid  = true;
+    statRms = currentSignal->rms();
+    statVar = currentSignal->variance();
+    statPower = currentSignal->power();
+    statsValid = true;
 }
 
 void AppState::generateSignal() {
