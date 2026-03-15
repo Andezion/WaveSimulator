@@ -6,7 +6,9 @@
 void drawFileDialog(AppState& state, const char* title,
                     bool& showFlag,
                     std::function<void(const std::string&)> onOk) {
-    if (!showFlag) return;
+    if (!showFlag) {
+        return;
+    }
 
     Rectangle dlg = {280, 240, 520, 140};
     DrawRectangleRec(dlg, Color{240, 240, 240, 255});
@@ -24,10 +26,10 @@ void drawFileDialog(AppState& state, const char* title,
 
     handleTextInputKey(ti);
 
-    Rectangle okBtn  = {dlg.x + 10,              dlg.y + 95, 90, 30};
+    Rectangle okBtn = {dlg.x + 10, dlg.y + 95, 90, 30};
     Rectangle canBtn = {dlg.x + dlg.width - 100, dlg.y + 95, 90, 30};
-    drawButton(okBtn,  "OK",     false);
-    drawButton(canBtn, "Cancel", false);
+    drawButton(okBtn,"OK",false);
+    drawButton(canBtn,"Cancel",false);
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
