@@ -22,13 +22,18 @@ int main() {
     // Отступ справа для графика (для оси и отрисовки текста)
     const int PLOT_PAD_R = 10;
 
+    // Разрешаем изменять размер окна
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    // Инициализация окна
     InitWindow(SCREEN_W, SCREEN_H, "WaveSimulator");
     
+    // Установка целевой частоты кадров для плавной отрисовки
     SetTargetFPS(60);
+    // Инициализация шрифтов для отрисовки текста
     initDrawFont();
 
     AppState state;
+    // Инициализация состояния приложения (выбранный тип сигнала, параметры и так далее)
     state.init();
 
     while (!WindowShouldClose()) {
