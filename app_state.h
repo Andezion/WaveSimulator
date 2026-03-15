@@ -9,6 +9,7 @@ enum class SignalType { None = 0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11 }
 // Типы операций для обработки сигналов
 enum class Operation  { Add = 0, Sub, Mul, Div };
 
+// Структура для текстового ввода (например, для параметров сигналов и всякой хуйни)
 struct TextInput {
     char buf[64] = {};
     bool active  = false;
