@@ -50,21 +50,21 @@ void AppState::init() {
     opFile2Path.clear();
 
     focusedInput = -1;
-    
+
     syncParamsToInputs();
 }
 
 void AppState::syncParamsToInputs() {
-    snprintf(paramInputs[PI_AMPLITUDE].buf,     sizeof(TextInput::buf), "%.4g", params.amplitude);
-    snprintf(paramInputs[PI_START_TIME].buf,    sizeof(TextInput::buf), "%.4g", params.startTime);
-    snprintf(paramInputs[PI_DURATION].buf,      sizeof(TextInput::buf), "%.4g", params.duration);
-    snprintf(paramInputs[PI_PERIOD].buf,        sizeof(TextInput::buf), "%.4g", params.period);
-    snprintf(paramInputs[PI_DUTY_CYCLE].buf,    sizeof(TextInput::buf), "%.4g", params.dutyCycle);
-    snprintf(paramInputs[PI_SAMPLING_FREQ].buf, sizeof(TextInput::buf), "%.4g", params.samplingFreq);
-    snprintf(paramInputs[PI_STEP_TIME].buf,     sizeof(TextInput::buf), "%.4g", params.stepTime);
-    snprintf(paramInputs[PI_SAMPLE_START].buf,  sizeof(TextInput::buf), "%d",   params.sampleStart);
-    snprintf(paramInputs[PI_SAMPLE_STEP].buf,   sizeof(TextInput::buf), "%d",   params.sampleStep);
-    snprintf(paramInputs[PI_PROBABILITY].buf,   sizeof(TextInput::buf), "%.4g", params.probability);
+    snprintf(paramInputs[PI_AMPLITUDE].buf,sizeof(TextInput::buf), "%.4g", params.amplitude);
+    snprintf(paramInputs[PI_START_TIME].buf,sizeof(TextInput::buf), "%.4g", params.startTime);
+    snprintf(paramInputs[PI_DURATION].buf,sizeof(TextInput::buf), "%.4g", params.duration);
+    snprintf(paramInputs[PI_PERIOD].buf,sizeof(TextInput::buf), "%.4g", params.period);
+    snprintf(paramInputs[PI_DUTY_CYCLE].buf,sizeof(TextInput::buf), "%.4g", params.dutyCycle);
+    snprintf(paramInputs[PI_SAMPLING_FREQ].buf,sizeof(TextInput::buf), "%.4g", params.samplingFreq);
+    snprintf(paramInputs[PI_STEP_TIME].buf,sizeof(TextInput::buf), "%.4g", params.stepTime);
+    snprintf(paramInputs[PI_SAMPLE_START].buf,sizeof(TextInput::buf), "%d", params.sampleStart);
+    snprintf(paramInputs[PI_SAMPLE_STEP].buf,sizeof(TextInput::buf), "%d", params.sampleStep);
+    snprintf(paramInputs[PI_PROBABILITY].buf,sizeof(TextInput::buf), "%.4g", params.probability);
 }
 
 void AppState::syncInputsToParams() {
