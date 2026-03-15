@@ -45,6 +45,7 @@ int main() {
 
         // Обрабатываем ввод пользователя (клики мыши, нажатия клавиш и так далее)
         processInput(state, plotX, plotW);
+        // Ограничиваем прокрутку графика, чтобы не было провалов при скролле
         clampPlotScroll(state, static_cast<float>(plotW));
 
         BeginDrawing();
