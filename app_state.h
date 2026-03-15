@@ -40,13 +40,14 @@ struct AppState {
     // Наши параметры сигнала
     SignalParams params;
 
+    // Текстовые поля для редактирования параметров сигнала
     std::array<TextInput, PI_COUNT> paramInputs;
-    int focusedInput = -1;
+    int focusedInput = -1; // Индекс параметра который меняем
 
-    std::unique_ptr<Signal> currentSignal;
-    std::unique_ptr<Signal> opSignal1;
-    std::unique_ptr<Signal> opSignal2;
-    std::unique_ptr<Signal> resultSignal;
+    std::unique_ptr<Signal> currentSignal; // Сгенерированный или загруженный сигнал
+    std::unique_ptr<Signal> opSignal1; // Первый сигнал для операций над сигналами
+    std::unique_ptr<Signal> opSignal2; // Второй сигнал для операций над сигналами
+    std::unique_ptr<Signal> resultSignal; // Результат операции над сигналами (если применимо)
 
     int histBins = 10;
     float plotScrollX = 0.0f;
