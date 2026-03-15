@@ -63,17 +63,17 @@ struct AppState {
     double statVar = 0.0; // Дисперсия сигнала
     double statPower = 0.0; // Мощность сигнала
 
-    bool statsValid = false;
-    bool showSaveDialog = false;
-    bool showLoadDialog = false;
-    bool showOp1Dialog = false;
-    bool showOp2Dialog = false;
+    bool statsValid = false; // Флаг, указывающий, что статистика для текущего сигнала актуальна и может быть отображена
+    bool showSaveDialog = false; // Флаг для отображения диалогового окна сохранения сигнала
+    bool showLoadDialog = false; // Флаг для отображения диалогового окна загрузки сигнала
+    bool showOp1Dialog = false; // Флаг для отображения диалогового окна загрузки первого сигнала для операций над сигналами
+    bool showOp2Dialog = false; // Флаг для отображения диалогового окна загрузки второго сигнала для операций над сигналами
     
-    TextInput fileNameInput;
+    TextInput fileNameInput; // Временное текстовое поле для ввода имени файла при загрузке/сохранении
 
-    void init();
-    void syncParamsToInputs();
-    void syncInputsToParams();
-    void updateStats();
-    void generateSignal();
+    void init(); // Иницилизация состояниея приложения и установка всего дефолтного говна
+    void syncParamsToInputs(); // 
+    void syncInputsToParams(); // 
+    void updateStats(); // Вычисление статистики для текущего сигнала (среднее, RMS, дисперсия и так далее)
+    void generateSignal(); // Генерация сигнала на основе выбранного типа и параметров
 };
