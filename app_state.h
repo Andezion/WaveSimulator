@@ -57,18 +57,17 @@ struct AppState {
     std::string opFile1Path; // Путь к первому сигналу для операций над сигналами
     std::string opFile2Path; // Путь ко второму сигналу для операций над сигналами
 
-    double statMean    = 0.0;
-    double statAbsMean = 0.0;
-    double statRms     = 0.0;
-    double statVar     = 0.0;
-    double statPower   = 0.0;
+    double statMean = 0.0; // Среднее значение сигнала
+    double statAbsMean = 0.0; // Среднее значение по модулю сигнала
+    double statRms = 0.0; // Среднеквадратичное значение сигнала
+    double statVar = 0.0; // Дисперсия сигнала
+    double statPower = 0.0; // Мощность сигнала
 
-    bool   statsValid  = false;
-
-    bool   showSaveDialog  = false;
-    bool   showLoadDialog  = false;
-    bool   showOp1Dialog   = false;
-    bool   showOp2Dialog   = false;
+    bool statsValid = false;
+    bool showSaveDialog = false;
+    bool showLoadDialog = false;
+    bool showOp1Dialog = false;
+    bool showOp2Dialog = false;
     
     TextInput fileNameInput;
 
