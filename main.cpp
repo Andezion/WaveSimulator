@@ -17,7 +17,7 @@ int main() {
     const int PLOT_PAD_R = 10;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(SCREEN_W, SCREEN_H, "WaveSimulator — Digital Signal Processing");
+    InitWindow(SCREEN_W, SCREEN_H, "WaveSimulator");
     
     SetTargetFPS(60);
     initDrawFont();
