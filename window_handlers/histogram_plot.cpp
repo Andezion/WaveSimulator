@@ -33,20 +33,29 @@ void drawHistogram(AppState& state, Rectangle histRect) {
     double yMin = *std::min_element(sig->samples.begin(), sig->samples.end());
     double yMax = *std::max_element(sig->samples.begin(), sig->samples.end());
 
-    if (yMax - yMin < 1e-12) { yMin -= 1.0; yMax += 1.0; }
+    if (yMax - yMin < 1e-12) { 
+        yMin -= 1.0; 
+        yMax += 1.0; 
+    }
 
     double binW = (yMax - yMin) / bins;
 
     std::vector<int> counts(static_cast<size_t>(bins), 0);
     for (double v : sig->samples) {
         int b = static_cast<int>((v - yMin) / binW);
-        if (b < 0)    b = 0;
-        if (b >= bins) b = bins - 1;
+        if (b < 0) {
+            b = 0;
+        }
+        if (b >= bins) {
+            b = bins - 1;
+        }
         counts[static_cast<size_t>(b)]++;
     }
 
     int maxCount = *std::max_element(counts.begin(), counts.end());
-    if (maxCount == 0) maxCount = 1;
+    if (maxCount == 0) {
+        maxCount = 1;
+    }
 
     float bw = drawW / bins;
     for (int i = 0; i < bins; ++i) {
@@ -57,8 +66,8 @@ void drawHistogram(AppState& state, Rectangle histRect) {
     }
 
     for (int i = 0; i <= bins; ++i) {
-        double v  = yMin + i * binW;
-        float  sx = ox + i * bw;
+        double v = yMin + i * binW;
+        float sx = ox + i * bw;
 
         char lbl[20]; snprintf(lbl, sizeof(lbl), "%.2g", v);
         int tw = measureText(lbl, 10);
@@ -68,15 +77,15 @@ void drawHistogram(AppState& state, Rectangle histRect) {
     }
 
     for (int i = 0; i <= 4; ++i) {
-        int   cnt = maxCount * i / 4;
-        float sy  = oy + drawH - static_cast<float>(cnt) / maxCount * drawH;
+        int cnt = maxCount * i / 4;
+        float sy = oy + drawH - static_cast<float>(cnt) / maxCount * drawH;
 
         char lbl[16]; snprintf(lbl, sizeof(lbl), "%d", cnt);
         int tw = measureText(lbl, 10);
 
         drawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 5), 10, DARKGRAY);
         DrawLine(static_cast<int>(ox - 3), static_cast<int>(sy),
-                 static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
+                 static_cast<int>(ox), static_cast<int>(sy), COL_AXIS);
     }
 
     DrawLine(static_cast<int>(ox), static_cast<int>(oy),
