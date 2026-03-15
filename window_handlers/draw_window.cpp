@@ -11,10 +11,10 @@ void drawWindow(AppState& state) {
 
     int screenW = GetScreenWidth();
     int screenH = GetScreenHeight();
-    int rightX  = PANEL_W;
-    int rightW  = screenW - PANEL_W;
-    int plotH   = static_cast<int>(screenH * 0.60f);
-    int histH   = screenH - plotH;
+    int rightX = PANEL_W;
+    int rightW = screenW - PANEL_W;
+    int plotH = static_cast<int>(screenH * 0.60f);
+    int histH = screenH - plotH;
 
     drawLeftPanel(state);
 
