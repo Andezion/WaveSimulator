@@ -33,11 +33,11 @@ static std::unique_ptr<Signal> makeSignal(SignalType type) {
 void AppState::init() {
     params = SignalParams{};
     selectedType = SignalType::S1;
-    selectedOp   = Operation::Add;
-    histBins     = 10;
-    plotScrollX  = 0.0f;
-    plotZoom     = 1.0f;
-    statsValid   = false;
+    selectedOp = Operation::Add;
+    histBins = 10;
+    plotScrollX = 0.0f;
+    plotZoom = 1.0f;
+    statsValid = false;
     statusMsg.clear();
     opFile1Path.clear();
     opFile2Path.clear();
@@ -59,24 +59,38 @@ void AppState::syncParamsToInputs() {
 }
 
 void AppState::syncInputsToParams() {
-    params.amplitude    = atof(paramInputs[PI_AMPLITUDE].buf);
-    params.startTime    = atof(paramInputs[PI_START_TIME].buf);
-    params.duration     = atof(paramInputs[PI_DURATION].buf);
-    params.period       = atof(paramInputs[PI_PERIOD].buf);
-    params.dutyCycle    = atof(paramInputs[PI_DUTY_CYCLE].buf);
+    params.amplitude = atof(paramInputs[PI_AMPLITUDE].buf);
+    params.startTime = atof(paramInputs[PI_START_TIME].buf);
+    params.duration = atof(paramInputs[PI_DURATION].buf);
+    params.period  = atof(paramInputs[PI_PERIOD].buf);
+    params.dutyCycle = atof(paramInputs[PI_DUTY_CYCLE].buf);
     params.samplingFreq = atof(paramInputs[PI_SAMPLING_FREQ].buf);
-    params.stepTime     = atof(paramInputs[PI_STEP_TIME].buf);
-    params.sampleStart  = atoi(paramInputs[PI_SAMPLE_START].buf);
-    params.sampleStep   = atoi(paramInputs[PI_SAMPLE_STEP].buf);
-    params.probability  = atof(paramInputs[PI_PROBABILITY].buf);
+    params.stepTime = atof(paramInputs[PI_STEP_TIME].buf);
+    params.sampleStart = atoi(paramInputs[PI_SAMPLE_START].buf);
+    params.sampleStep = atoi(paramInputs[PI_SAMPLE_STEP].buf);
+    params.probability = atof(paramInputs[PI_PROBABILITY].buf);
 
-    if (params.samplingFreq <= 0.0) params.samplingFreq = 1.0;
-    if (params.duration     <= 0.0) params.duration     = 0.01;
-    if (params.period       <= 0.0) params.period       = 0.01;
-    if (params.dutyCycle     < 0.0) params.dutyCycle    = 0.0;
-    if (params.dutyCycle     > 1.0) params.dutyCycle    = 1.0;
-    if (params.probability   < 0.0) params.probability  = 0.0;
-    if (params.probability   > 1.0) params.probability  = 1.0;
+    if (params.samplingFreq <= 0.0) {
+        params.samplingFreq = 1.0;
+    }
+    if (params.duration <= 0.0) {
+        params.duration = 0.01;
+    }
+    if (params.period <= 0.0) {
+        params.period = 0.01;
+    }
+    if (params.dutyCycle < 0.0) {
+        params.dutyCycle = 0.0;
+    }
+    if (params.dutyCycle > 1.0) {
+        params.dutyCycle = 1.0;
+    }
+    if (params.probability < 0.0) {
+        params.probability = 0.0;
+    }
+    if (params.probability > 1.0) {
+        params.probability = 1.0;
+    }
 }
 
 void AppState::updateStats() {
