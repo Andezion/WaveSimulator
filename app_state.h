@@ -30,10 +30,14 @@ enum ParamIndex {
     PI_COUNT = 10
 };
 
+// Основная структура для хранения состояния приложения, которая будет использоваться во всех обработчиках и функциях отрисовки
 struct AppState {
+    // Дефолтные значения параметров для генерации сигналов
     SignalType selectedType = SignalType::S3;
-    Operation  selectedOp   = Operation::Add;
+    // Дефолтный параметр для операций над сигналами
+    Operation selectedOp = Operation::Add;
 
+    // Наши параметры сигнала
     SignalParams params;
 
     std::array<TextInput, PI_COUNT> paramInputs;
