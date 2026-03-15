@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <cstdlib>
 
+// Выбор генератора сигнала в зависимости от выбранного типа
 static std::unique_ptr<Signal> makeSignal(SignalType type) {
     switch (type) {
         case SignalType::S1:  return std::make_unique<UniformDistributedNoise>();
@@ -30,18 +31,26 @@ static std::unique_ptr<Signal> makeSignal(SignalType type) {
     }
 }
 
+// Инициализация состояния приложения с дефолтными параметрами
 void AppState::init() {
     params = SignalParams{};
+
     selectedType = SignalType::S1;
     selectedOp = Operation::Add;
+
     histBins = 10;
     plotScrollX = 0.0f;
     plotZoom = 1.0f;
+
     statsValid = false;
+
     statusMsg.clear();
+
     opFile1Path.clear();
     opFile2Path.clear();
+
     focusedInput = -1;
+    
     syncParamsToInputs();
 }
 
