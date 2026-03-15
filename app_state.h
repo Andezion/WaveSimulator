@@ -48,9 +48,9 @@ struct AppState {
     std::unique_ptr<Signal> opSignal2;
     std::unique_ptr<Signal> resultSignal;
 
-    int   histBins    = 10;
+    int histBins = 10;
     float plotScrollX = 0.0f;
-    float plotZoom    = 1.0f;
+    float plotZoom = 1.0f;
 
     std::string statusMsg;
     std::string opFile1Path;
