@@ -155,12 +155,16 @@ void drawLeftPanel(AppState& state) {
         char lbl[80];
         snprintf(lbl, sizeof(lbl), "Sig1: %s",
                  state.opFile1Path.empty() ? "(none)" : state.opFile1Path.c_str());
+
         Rectangle r  = {x, y, fw - 54.0f, 22.0f};
         Rectangle lb = {x + fw - 52.0f, y, 52.0f, 22.0f};
+
         DrawRectangleRec(r, WHITE);
         DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
+        
         drawText(lbl, static_cast<int>(r.x+3), static_cast<int>(r.y+4), 11, DARKGRAY);
         drawButton(lb, "Load", false);
+        
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
             if (CheckCollisionPointRec(mp, lb)) {
@@ -174,12 +178,16 @@ void drawLeftPanel(AppState& state) {
         char lbl[80];
         snprintf(lbl, sizeof(lbl), "Sig2: %s",
                  state.opFile2Path.empty() ? "(none)" : state.opFile2Path.c_str());
+
         Rectangle r  = {x, y, fw - 54.0f, 22.0f};
         Rectangle lb = {x + fw - 52.0f, y, 52.0f, 22.0f};
+        
         DrawRectangleRec(r, WHITE);
         DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
+        
         drawText(lbl, static_cast<int>(r.x+3), static_cast<int>(r.y+4), 11, DARKGRAY);
         drawButton(lb, "Load", false);
+
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
             if (CheckCollisionPointRec(mp, lb)) {
@@ -195,6 +203,7 @@ void drawLeftPanel(AppState& state) {
     for (int i = 0; i < 4; ++i) {
         Rectangle br = {x + i * (opbw + 3), y, opbw, bh};
         drawButton(br, opLabels[i], state.selectedOp == static_cast<Operation>(i));
+        
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
             if (CheckCollisionPointRec(mp, br)) {
