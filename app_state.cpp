@@ -54,6 +54,7 @@ void AppState::init() {
     syncParamsToInputs();
 }
 
+// Синхронизация параметров сигнала в структуре AppState с текстовыми полями для редактирования
 void AppState::syncParamsToInputs() {
     snprintf(paramInputs[PI_AMPLITUDE].buf,sizeof(TextInput::buf), "%.4g", params.amplitude);
     snprintf(paramInputs[PI_START_TIME].buf,sizeof(TextInput::buf), "%.4g", params.startTime);
@@ -67,6 +68,7 @@ void AppState::syncParamsToInputs() {
     snprintf(paramInputs[PI_PROBABILITY].buf,sizeof(TextInput::buf), "%.4g", params.probability);
 }
 
+// Парсинг текстовых полей для редактирования параметров сигнала и сохранение их в структуре AppState
 void AppState::syncInputsToParams() {
     params.amplitude = atof(paramInputs[PI_AMPLITUDE].buf);
     params.startTime = atof(paramInputs[PI_START_TIME].buf);
@@ -102,6 +104,7 @@ void AppState::syncInputsToParams() {
     }
 }
 
+// Вычесление новых статистик для выбранного сигнала
 void AppState::updateStats() {
     statsValid = false;
 
@@ -117,21 +120,22 @@ void AppState::updateStats() {
     statsValid = true;
 }
 
+// Генерация и отрисовка сигнала который выбрали
 void AppState::generateSignal() {
-    syncInputsToParams();
-    auto sig = makeSignal(selectedType);
+    syncInputsToParams(); // берём параметры из полей 
+    auto sig = makeSignal(selectedType); // создаём сигнал в зависимости от выбранного типа
 
     if (!sig) { 
         statusMsg = "Unknown signal type"; 
         return; 
     }
 
-    sig->params = params;
-    sig->generate();
+    sig->params = params; // устанавливаем параметры сигнала
+    sig->generate(); // генерируем сигнал
 
-    currentSignal = std::move(sig);
+    currentSignal = std::move(sig); // поскольку работаем с unique_ptr, то просто перемещаем новый сигнал в currentSignal
     plotScrollX = 0.0f;
     
-    updateStats();
+    updateStats(); // обновляем статистику для нового сигнала
     statusMsg = "Signal generated: " + currentSignal->getName();
 }
