@@ -26,7 +26,7 @@ void drawLeftPanel(AppState& state) {
     for (int i = 0; i < 11; ++i) {
         int col = i % 4, row = i / 4;
 
-        Rectangle br = { x + col*(bw4+4), y + row*(bh+4), bw4, bh };
+        Rectangle br = { x + col*(bw4 + 4), y + row*(bh + 4), bw4, bh };
         SignalType st = static_cast<SignalType>(i + 1);
 
         drawButton(br, sigLabels[i], state.selectedType == st);
@@ -44,7 +44,9 @@ void drawLeftPanel(AppState& state) {
     float fy_step = 40.0f;
 
     auto field = [&](int idx, const char* label, bool show) {
-        if (!show) return;
+        if (!show) {
+            return;
+        }
         drawTextInput(state, idx, {x, y, fw, fh}, label);
         y += fy_step;
     };
@@ -52,14 +54,14 @@ void drawLeftPanel(AppState& state) {
     SignalType t = state.selectedType;
     bool needPeriod = (t == SignalType::S3 || t == SignalType::S4 || t == SignalType::S5 ||
                        t == SignalType::S6 || t == SignalType::S7 || t == SignalType::S8);
-    bool needKw      = (t == SignalType::S6 || t == SignalType::S7 || t == SignalType::S8);
-    bool needTs      = (t == SignalType::S9);
+    bool needKw = (t == SignalType::S6 || t == SignalType::S7 || t == SignalType::S8);
+    bool needTs = (t == SignalType::S9);
     bool needSamples = (t == SignalType::S10);
-    bool needFreq    = (t != SignalType::S10);
-    bool needProb    = (t == SignalType::S11);
+    bool needFreq = (t != SignalType::S10);
+    bool needProb = (t == SignalType::S11);
 
-    field(PI_AMPLITUDE,    "Amplitude (A):",      true);
-    field(PI_START_TIME,   "Start Time (t1):",    true);
+    field(PI_AMPLITUDE,"Amplitude (A):",      true);
+    field(PI_START_TIME,"Start Time (t1):",    true);
     field(PI_DURATION,     "Duration (d):",       true);
     field(PI_PERIOD,       "Period (T):",         needPeriod);
     field(PI_DUTY_CYCLE,   "Duty Cycle (kw):",    needKw);
