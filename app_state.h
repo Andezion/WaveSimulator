@@ -4,7 +4,9 @@
 #include <string>
 #include <array>
 
+// Структура для хранения состояния приложения, включая выбранный тип сигнала, параметры, текущий сигнал и так далее
 enum class SignalType { None = 0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11 };
+// Типы операций для обработки сигналов
 enum class Operation  { Add = 0, Sub, Mul, Div };
 
 struct TextInput {
