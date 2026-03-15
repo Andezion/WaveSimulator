@@ -36,10 +36,14 @@ int main() {
     // Инициализация состояния приложения (выбранный тип сигнала, параметры и так далее)
     state.init();
 
+    // Начинаем работу
     while (!WindowShouldClose()) {
+        // Вычисляем размеры правой области для отрисовки графика и гистограммы
         int plotX = PANEL_W + PLOT_PAD_L;
+        // Ширина области для отрисовки графика
         int plotW = GetScreenWidth() - PANEL_W - PLOT_PAD_L - PLOT_PAD_R;
 
+        // Обрабатываем ввод пользователя (клики мыши, нажатия клавиш и так далее)
         processInput(state, plotX, plotW);
         clampPlotScroll(state, static_cast<float>(plotW));
 
