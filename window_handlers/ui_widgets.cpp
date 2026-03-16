@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cmath>
 
+// Тут рисуем кнопки и текстовые поля 
 void drawButton(Rectangle r, const char* label, bool active) {
     Color bg = active ? COL_BTN_ACTIVE : COL_BTN_NORMAL;
 
