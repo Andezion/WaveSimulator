@@ -22,7 +22,8 @@ void drawButton(Rectangle r, const char* label, bool active) {
 // Обрабатываем ввод текста в текстовом поле
 // Принимает ссылку на структуру TextInput, которая содержит буфер для текста
 void handleTextInputKey(TextInput& ti) {
-    int ch;
+    int ch; // Переменная для хранения нажатого символа
+    // Получаем все нажатые символы и добавляем их в буфер, если это допустимые символы
     while ((ch = GetCharPressed()) != 0) {
         int len = static_cast<int>(strlen(ti.buf));
         if (ch >= 32 && len < 62) {
@@ -30,6 +31,7 @@ void handleTextInputKey(TextInput& ti) {
             ti.buf[len+1] = '\0';
         }
     }
+    // Обрабатываем нажатие клавиши Backspace для удаления последнего символа из буфера
     if (IsKeyPressed(KEY_BACKSPACE)) {
         int len = static_cast<int>(strlen(ti.buf));
         if (len > 0) {
