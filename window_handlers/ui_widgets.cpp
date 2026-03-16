@@ -19,6 +19,8 @@ void drawButton(Rectangle r, const char* label, bool active) {
              FONT_SZ, active ? DARKBLUE : DARKGRAY);
 }
 
+// Обрабатываем ввод текста в текстовом поле
+// Принимает ссылку на структуру TextInput, которая содержит буфер для текста
 void handleTextInputKey(TextInput& ti) {
     int ch;
     while ((ch = GetCharPressed()) != 0) {
