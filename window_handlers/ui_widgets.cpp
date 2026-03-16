@@ -8,8 +8,8 @@
 void drawButton(Rectangle r, const char* label, bool active) {
     Color bg = active ? COL_BTN_ACTIVE : COL_BTN_NORMAL; // Цвет кнопки в зависимости от состояния
 
-    DrawRectangleRec(r, bg);
-    DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
+    DrawRectangleRec(r, bg); // Рисуем прямоугольник кнопки
+    DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER); // Рисуем границу кнопки
 
     int tw = measureText(label, FONT_SZ);
     drawText(label,
