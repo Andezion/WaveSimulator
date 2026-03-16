@@ -54,14 +54,17 @@ void drawTextInput(AppState& state, int idx, Rectangle r, const char* label) {
 
     DrawRectangleRec(r, focused ? Color{255, 255, 220, 255} : WHITE); // Рисуем прямоугольник текстового поля
     DrawRectangleLinesEx(r, 1.0f, focused ? BLUE : COL_BTN_BORDER); // Рисуем границу текстового поля
+    
     drawText(ti.buf,
              static_cast<int>(r.x + 4),
              static_cast<int>(r.y + (r.height - FONT_SZ) / 2),
              FONT_SZ, BLACK);
-
+    // Если текстовое поле в фокусе, рисуем мигающий курсор и обрабатываем ввод текста
     if (focused) {
-        double t = GetTime();
+        double t = GetTime(); // Получаем текущее время для мигания курсора
+        // Рисуем вертикальную линию курсора, которая мигает каждые 0.5 секунды
         if ((t - std::floor(t)) < 0.5) {
+            // Вычисляем позицию курсора, которая находится после последнего символа в буфере
             int cx = static_cast<int>(r.x + 4) + measureText(ti.buf, FONT_SZ);
             DrawLine(cx, static_cast<int>(r.y + 4),
                      cx, static_cast<int>(r.y + r.height - 4), BLACK);
