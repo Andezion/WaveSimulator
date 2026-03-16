@@ -69,9 +69,10 @@ void drawTextInput(AppState& state, int idx, Rectangle r, const char* label) {
             DrawLine(cx, static_cast<int>(r.y + 4),
                      cx, static_cast<int>(r.y + r.height - 4), BLACK);
         }
+        // Обрабатываем ввод текста для данного текстового поля
         handleTextInputKey(ti);
     }
-
+    // Обрабатываем клик мыши для установки фокуса на текстовое поле
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mp = GetMousePosition();
         if (CheckCollisionPointRec(mp, r)) {
