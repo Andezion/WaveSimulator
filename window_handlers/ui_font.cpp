@@ -1,6 +1,6 @@
 #include "ui_font.h"
 
-static Font g_font     = {};
+static Font g_font = {};
 static bool g_fontLoaded = false;
 
 void initDrawFont() {
