@@ -4,8 +4,9 @@
 #include <cmath>
 
 // Тут рисуем кнопки и текстовые поля 
+// Принимает координаты, подпись и состояние кнопки
 void drawButton(Rectangle r, const char* label, bool active) {
-    Color bg = active ? COL_BTN_ACTIVE : COL_BTN_NORMAL;
+    Color bg = active ? COL_BTN_ACTIVE : COL_BTN_NORMAL; // Цвет кнопки в зависимости от состояния
 
     DrawRectangleRec(r, bg);
     DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER);
