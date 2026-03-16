@@ -40,17 +40,20 @@ void handleTextInputKey(TextInput& ti) {
     }
 }
 
+// Рисуем текстовое поле для ввода параметров
+// Принимает состояние приложения, индекс текстового поля, координаты и подпись
 void drawTextInput(AppState& state, int idx, Rectangle r, const char* label) {
-    TextInput& ti = state.paramInputs[static_cast<size_t>(idx)];
-    bool focused  = (state.focusedInput == idx);
+    TextInput& ti = state.paramInputs[static_cast<size_t>(idx)]; // Получаем ссылку на структуру TextInput для данного индекса
+    bool focused  = (state.focusedInput == idx); // Проверяем является ли это текстовое поле активным (в фокусе)
 
+    // Рисуем подпись над текстовым полем
     drawText(label,
              static_cast<int>(r.x),
              static_cast<int>(r.y - 16),
              FONT_SZ, DARKGRAY);
 
-    DrawRectangleRec(r, focused ? Color{255, 255, 220, 255} : WHITE);
-    DrawRectangleLinesEx(r, 1.0f, focused ? BLUE : COL_BTN_BORDER);
+    DrawRectangleRec(r, focused ? Color{255, 255, 220, 255} : WHITE); // Рисуем прямоугольник текстового поля
+    DrawRectangleLinesEx(r, 1.0f, focused ? BLUE : COL_BTN_BORDER); // Рисуем границу текстового поля
     drawText(ti.buf,
              static_cast<int>(r.x + 4),
              static_cast<int>(r.y + (r.height - FONT_SZ) / 2),
