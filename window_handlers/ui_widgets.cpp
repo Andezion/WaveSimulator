@@ -11,6 +11,7 @@ void drawButton(Rectangle r, const char* label, bool active) {
     DrawRectangleRec(r, bg); // Рисуем прямоугольник кнопки
     DrawRectangleLinesEx(r, 1.0f, COL_BTN_BORDER); // Рисуем границу кнопки
 
+    // Вычисляем ширину текста для центрирования
     int tw = measureText(label, FONT_SZ);
     drawText(label,
              static_cast<int>(r.x + (r.width  - tw) / 2),
