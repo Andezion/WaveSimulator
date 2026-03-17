@@ -31,6 +31,7 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
     float drawW = plotRect.width  - PAD_L - PAD_R;
     float drawH = plotRect.height - PAD_T - PAD_B;
 
+    // Вычисляем координаты начала области для рисования графика
     float ox = plotRect.x + PAD_L;
     float oy = plotRect.y + PAD_T;
 
