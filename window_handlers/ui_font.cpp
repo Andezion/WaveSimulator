@@ -1,7 +1,7 @@
 #include "ui_font.h"
 
-static Font g_font = {};
-static bool g_fontLoaded = false;
+static Font g_font = {}; // Глобальная переменная для хранения шрифта
+static bool g_fontLoaded = false; // Загрузили ли шрифт успешно
 
 void initDrawFont() {
     g_font = LoadFontEx("/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf",
