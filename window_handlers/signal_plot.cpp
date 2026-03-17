@@ -35,34 +35,52 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
     float ox = plotRect.x + PAD_L;
     float oy = plotRect.y + PAD_T;
 
+    // Получаем количество отсчетов в сигнале
     int n = static_cast<int>(sig->samples.size());
 
+    // Находим минимальное и максимальное значение сигнала для масштабирования по вертикали
     double yMin = *std::min_element(sig->samples.begin(), sig->samples.end());
     double yMax = *std::max_element(sig->samples.begin(), sig->samples.end());
 
-    if (yMax - yMin < 1e-12) { yMin -= 1.0; yMax += 1.0; }
+    // Если сигнал почти плоский, добавляем небольшой запас к диапазону, чтобы график был виден
+    if (yMax - yMin < 1e-12) { 
+        yMin -= 1.0; 
+        yMax += 1.0; 
+    }
     double yRange = yMax - yMin;
 
+    // Находим минимальное и максимальное время сигнала для масштабирования по горизонтали
     double tMin = sig->times.front();
     double tMax = sig->times.back();
-    double tRange = tMax - tMin;
-    if (tRange < 1e-12) tRange = 1.0;
 
+    double tRange = tMax - tMin;
+    if (tRange < 1e-12) {
+        tRange = 1.0;
+    }
+
+    // Вычисляем масштаб и прокрутку для отображения нужного диапазона сигнала
     float zoom = state.plotZoom > 0.01f ? state.plotZoom : 1.0f;
 
+    // Вычисляем видимый диапазон времени на графике с учетом масштаба и прокрутки
     float visibleDuration = static_cast<float>(tRange) / zoom;
+    // Вычисляем, на сколько прокручено отображение сигнала влево или вправо, в зависимости от состояния прокрутки
     float scrollT = state.plotScrollX / drawW * static_cast<float>(tRange) / zoom;
 
+    // Вычисляем минимальное и максимальное время, отображаемое на графике, с учетом прокрутки
     double tViewMin = tMin + scrollT;
     double tViewMax = tViewMin + visibleDuration;
-    (void)tViewMax;
 
+    (void)tViewMax; // Пока не используем tViewMax, но он может пригодиться для оптимизации отрисовки!!!
+
+    // Включаем режим отсечения, чтобы рисовать только внутри области графика
     BeginScissorMode(static_cast<int>(ox), static_cast<int>(oy),
                      static_cast<int>(drawW), static_cast<int>(drawH));
 
+    // Лямбда-функции для преобразования координат времени и значения сигнала в экранные координаты
     auto toScreenX = [&](double t) -> float {
         return ox + static_cast<float>((t - tViewMin) / visibleDuration) * drawW;
     };
+    // Преобразуем значение сигнала в экранные координаты по вертикали, учитывая масштабирование и отступы
     auto toScreenY = [&](double v) -> float {
         return oy + static_cast<float>(1.0 - (v - yMin) / yRange) * drawH;
     };
