@@ -3,14 +3,19 @@
 #include <algorithm>
 #include <string>
 
+// Рисуем график сигнала в заданной области
 void drawSignalPlot(AppState& state, Rectangle plotRect) {
+    // Рисуем фон и оси графика
     DrawRectangleRec(plotRect, COL_PLOT_BG);
+    // Рисуем границу графика
     DrawRectangleLinesEx(plotRect, 1.0f, COL_AXIS);
 
+    // Берем сигнал для отображения - это будет результат операции, если есть, иначе текущий сигнал
     Signal* sig = state.resultSignal  ? state.resultSignal.get()
                 : state.currentSignal ? state.currentSignal.get()
                 : nullptr;
 
+    // Если сигнала нет или он пустой, показываем подсказку пользователю
     if (!sig || sig->samples.empty()) {
         drawText("No signal — press [ Generate Signal ]",
                  static_cast<int>(plotRect.x + 20),
@@ -19,8 +24,10 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
         return;
     }
 
+    // Параметры отступов для рисования графика внутри области
     const float PAD_L = 55.0f, PAD_R = 10.0f, PAD_T = 18.0f, PAD_B = 30.0f;
 
+    // Вычисляем размеры области для рисования графика, учитывая отступы
     float drawW = plotRect.width  - PAD_L - PAD_R;
     float drawH = plotRect.height - PAD_T - PAD_B;
 
