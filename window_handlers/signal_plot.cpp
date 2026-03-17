@@ -85,12 +85,15 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
         return oy + static_cast<float>(1.0 - (v - yMin) / yRange) * drawH;
     };
 
+    // Рисуем горизонтальную линию для нулевого уровня сигнала, если он попадает в видимую область
     float zeroY = toScreenY(0.0);
-    if (zeroY >= oy && zeroY <= oy + drawH)
+    if (zeroY >= oy && zeroY <= oy + drawH) {
         DrawLine(static_cast<int>(ox), static_cast<int>(zeroY),
                  static_cast<int>(ox + drawW), static_cast<int>(zeroY),
                  Color{200, 200, 200, 255});
+    }
 
+    // Рисуем график сигнала. Если сигнал дискретный, рисуем вертикальные линии и кружки для каждого отсчета. Если непрерывный - рисуем ломаную линию
     if (sig->isDiscrete()) {
         for (int i = 0; i < n; ++i) {
             float sx = toScreenX(sig->times[static_cast<size_t>(i)]);
@@ -114,15 +117,21 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
         }
     }
 
+    // Завершаем режим отсечения, чтобы рисовать UI элементы поверх графика
     EndScissorMode();
 
+    // Рисуем оси и подписи к ним. Для вертикальной оси рисуем 5 делений, для горизонтальной - 6 делений, с учетом видимого диапазона времени
     for (int i = 0; i <= 5; ++i) {
         double v  = yMin + yRange * i / 5.0;
         float  sy = toScreenY(v);
 
-        if (sy < oy || sy > oy + drawH) continue;
+        if (sy < oy || sy > oy + drawH) {
+            continue;
+        }
 
-        char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", v);
+        char lbl[20]; 
+        snprintf(lbl, sizeof(lbl), "%.3g", v);
+
         int tw = measureText(lbl, 11);
 
         drawText(lbl, static_cast<int>(ox - tw - 3), static_cast<int>(sy - 6), 11, DARKGRAY);
@@ -130,11 +139,14 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
                  static_cast<int>(ox),     static_cast<int>(sy), COL_AXIS);
     }
 
+    // Рисуем деления и подписи для горизонтальной оси, учитывая видимый диапазон времени
     for (int i = 0; i <= 6; ++i) {
         double t  = tViewMin + visibleDuration * i / 6.0;
         float  sx = toScreenX(t);
 
-        char lbl[20]; snprintf(lbl, sizeof(lbl), "%.3g", t);
+        char lbl[20]; 
+        snprintf(lbl, sizeof(lbl), "%.3g", t);
+
         int tw = measureText(lbl, 11);
 
         drawText(lbl, static_cast<int>(sx - tw/2.0f),
@@ -143,11 +155,13 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
                  static_cast<int>(sx), static_cast<int>(oy + drawH + 3), COL_AXIS);
     }
 
+    // Рисуем рамки и подписи для осей графика
     DrawLine(static_cast<int>(ox), static_cast<int>(oy),
              static_cast<int>(ox), static_cast<int>(oy + drawH), COL_AXIS);
     DrawLine(static_cast<int>(ox), static_cast<int>(oy + drawH),
              static_cast<int>(ox + drawW), static_cast<int>(oy + drawH), COL_AXIS);
 
+    
     std::string titleStr = state.resultSignal  ? "Result Signal"
                          : state.currentSignal ? state.currentSignal->getName()
                          : std::string{};
