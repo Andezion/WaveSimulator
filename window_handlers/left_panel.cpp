@@ -5,24 +5,30 @@
 #include <cstring>
 #include <string>
 
+// Вспомогательная функция для обработки выбранной операции над сигналами
 void processSignalOperation(AppState& state);
 
+// Рисуем левую панель с элементами управления и информацией о сигнале
 void drawLeftPanel(AppState& state) {
-    int screenH = GetScreenHeight();
+    int screenH = GetScreenHeight(); // Получаем высоту экрана для адаптивного размещения элементов
+
+    // Рисуем фон панели и разделительную линию
     Rectangle panel = {0, 0, static_cast<float>(PANEL_W), static_cast<float>(screenH)};
     DrawRectangleRec(panel, COL_PANEL);
     DrawLine(PANEL_W, 0, PANEL_W, screenH, COL_BTN_BORDER);
 
-    float x = 6.0f;
-    float y = 6.0f;
-    float fw = PANEL_W - 12.0f;
-    float bh = 22.0f;
-    float bw4 = (fw - 3.0f * 4.0f) / 4.0f;
+    float x = 6.0f; // Левый отступ для элементов на панели
+    float y = 6.0f; // Верхний отступ для элементов на панели
+    float fw = PANEL_W - 12.0f; // Доступная ширина для элементов на панели с учетом отступов
+    float bh = 22.0f; // Стандартная высота кнопок и полей ввода
+    float bw4 = (fw - 3.0f * 4.0f) / 4.0f; // Ширина для кнопок, если их 4 в ряд
 
     drawText("Signal Type:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
-    y += 18.0f;
+    y += 18.0f; // Вертикальный отступ после заголовка
 
+    // Рисуем кнопки для выбора типа сигнала. При нажатии на кнопку обновляем выбранный тип в состоянии приложения
     const char* sigLabels[11] = {"S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11"};
+    // Проходим по всем 11 типам сигналов и рисуем для каждого кнопку. Если тип сигнала соответствует выбранному, подсвечиваем кнопку
     for (int i = 0; i < 11; ++i) {
         int col = i % 4, row = i / 4;
 
