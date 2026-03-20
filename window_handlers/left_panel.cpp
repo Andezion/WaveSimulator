@@ -59,6 +59,7 @@ void drawLeftPanel(AppState& state) {
         y += fy_step;
     };
 
+    // В зависимости от выбранного типа сигнала отображаем соответствующие поля ввода для параметров сигнала
     SignalType t = state.selectedType;
     bool needPeriod = (t == SignalType::S3 || t == SignalType::S4 || t == SignalType::S5 ||
                        t == SignalType::S6 || t == SignalType::S7 || t == SignalType::S8);
@@ -79,6 +80,7 @@ void drawLeftPanel(AppState& state) {
     field(PI_SAMPLE_STEP,"Impulse Idx (ns):",needSamples);
     field(PI_PROBABILITY,"Probability (p):",needProb);
 
+    // Кнопка для генерации сигнала. При нажатии вызываем функцию генерации сигнала в состоянии приложения
     Rectangle genBtn = {x, y, fw, 28.0f};
     drawButton(genBtn, "[ Generate Signal ]", false);
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -87,7 +89,8 @@ void drawLeftPanel(AppState& state) {
             state.generateSignal();
         }
     }
-    y += 34.0f;
+
+    y += 34.0f; // Вертикальный отступ после кнопки генерации сигнала
 
     drawText("Histogram bins:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
