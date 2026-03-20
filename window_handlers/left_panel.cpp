@@ -258,6 +258,7 @@ void drawLeftPanel(AppState& state) {
     }
     y += 32.0f;
 
+    // Рисуем статусное сообщение в нижней части панели. Если сообщение содержит слово Error - отображаем его красным цветом, иначе - зеленым
     if (!state.statusMsg.empty()) {
         Color col = (state.statusMsg.find("Error") != std::string::npos ||
                      state.statusMsg.find("error") != std::string::npos) ? RED : DARKGREEN;
