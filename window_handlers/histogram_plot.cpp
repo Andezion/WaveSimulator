@@ -5,13 +5,16 @@
 #include <cstdio>
 
 void drawHistogram(AppState& state, Rectangle histRect) {
+    // Рисуем фон и границу для гистограммы
     DrawRectangleRec(histRect, Color{245, 245, 255, 255});
     DrawRectangleLinesEx(histRect, 1.0f, COL_AXIS);
 
+    // Выбираем сигнал для отображения гистограммы - это будет результат операции, если он есть, иначе текущий сигнал
     Signal* sig = state.resultSignal  ? state.resultSignal.get()
                 : state.currentSignal ? state.currentSignal.get()
                 : nullptr;
 
+    // Если сигнала нет или он пустой, показываем подсказку пользователю
     if (!sig || sig->samples.empty()) {
         drawText("Histogram: no signal",
                  static_cast<int>(histRect.x + 10),
@@ -20,16 +23,21 @@ void drawHistogram(AppState& state, Rectangle histRect) {
         return;
     }
 
+    // Параметры отступов для рисования гистограммы внутри области
     const float PAD_L = 55.0f, PAD_R = 10.0f, PAD_T = 18.0f, PAD_B = 30.0f;
 
+    // Вычисляем размеры области для рисования гистограммы, учитывая отступы
     float drawW = histRect.width  - PAD_L - PAD_R;
     float drawH = histRect.height - PAD_T - PAD_B;
 
+    // Вычисляем координаты начала области для рисования гистограммы
     float ox = histRect.x + PAD_L;
     float oy = histRect.y + PAD_T;
 
+    // Вычисляем количество бинов для гистограммы, используя значение из состояния приложения. Если значение некорректное, используем 10 бинов по умолчанию
     int bins = state.histBins > 0 ? state.histBins : 10;
 
+    // Находим минимальное и максимальное значение сигнала для определения диапазона гистограммы
     double yMin = *std::min_element(sig->samples.begin(), sig->samples.end());
     double yMax = *std::max_element(sig->samples.begin(), sig->samples.end());
 
@@ -38,8 +46,10 @@ void drawHistogram(AppState& state, Rectangle histRect) {
         yMax += 1.0; 
     }
 
+    // Вычисляем ширину бина для гистограммы на основе диапазона значений сигнала и количества бинов
     double binW = (yMax - yMin) / bins;
 
+    // Считаем количество отсчетов сигнала, попадающих в каждый бин гистограммы
     std::vector<int> counts(static_cast<size_t>(bins), 0);
     for (double v : sig->samples) {
         int b = static_cast<int>((v - yMin) / binW);
