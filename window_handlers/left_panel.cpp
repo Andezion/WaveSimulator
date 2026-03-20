@@ -170,6 +170,7 @@ void drawLeftPanel(AppState& state) {
     y += 18.0f;
 
     {
+        // Рисуем блок для загрузки первого сигнала для операций. Показываем путь к файлу, если он загружен, и кнопку для загрузки
         char lbl[80];
         snprintf(lbl, sizeof(lbl), "Sig1: %s",
                  state.opFile1Path.empty() ? "(none)" : state.opFile1Path.c_str());
@@ -185,6 +186,7 @@ void drawLeftPanel(AppState& state) {
         
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
+            // Если нажата кнопка загрузки для первого сигнала, открываем диалог загрузки и очищаем буфер ввода имени файла
             if (CheckCollisionPointRec(mp, lb)) {
                 state.showOp1Dialog = true;
                 memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf));
@@ -193,6 +195,7 @@ void drawLeftPanel(AppState& state) {
         y += 26.0f;
     }
     {
+        // Рисуем блок для загрузки второго сигнала для операций. Показываем путь к файлу, если он загружен, и кнопку для загрузки
         char lbl[80];
         snprintf(lbl, sizeof(lbl), "Sig2: %s",
                  state.opFile2Path.empty() ? "(none)" : state.opFile2Path.c_str());
@@ -208,6 +211,7 @@ void drawLeftPanel(AppState& state) {
 
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
+            // Если нажата кнопка загрузки для второго сигнала, открываем диалог загрузки и очищаем буфер ввода имени файла
             if (CheckCollisionPointRec(mp, lb)) {
                 state.showOp2Dialog = true;
                 memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf));
@@ -216,12 +220,13 @@ void drawLeftPanel(AppState& state) {
         y += 26.0f;
     }
 
+    // Рисуем кнопки для выбора операции над сигналами. При нажатии на кнопку обновляем выбранную операцию в состоянии приложения
     const char* opLabels[4] = {"+", "-", "x", "/"};
     float opbw = (fw - 9.0f) / 4.0f;
     for (int i = 0; i < 4; ++i) {
         Rectangle br = {x + i * (opbw + 3), y, opbw, bh};
         drawButton(br, opLabels[i], state.selectedOp == static_cast<Operation>(i));
-        
+        // Если нажата кнопка операции, обновляем выбранную операцию в состоянии приложения
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             Vector2 mp = GetMousePosition();
             if (CheckCollisionPointRec(mp, br)) {
@@ -231,6 +236,9 @@ void drawLeftPanel(AppState& state) {
     }
     y += bh + 6.0f;
 
+    // Кнопка для выполнения выбранной операции над сигналами
+    // Кнопка активна только если оба сигнала загружены и не пустые
+    // При нажатии вызываем функцию обработки операции в состоянии приложения
     bool canCompute = state.opSignal1 && !state.opSignal1->samples.empty() &&
                       state.opSignal2 && !state.opSignal2->samples.empty();
     
@@ -243,6 +251,7 @@ void drawLeftPanel(AppState& state) {
         }
     }
     
+    // Если операция недоступна, показываем подсказку пользователю, что нужно загрузить оба сигнала для вычисления
     if (!canCompute && !state.opFile1Path.empty() && state.opFile2Path.empty()) {
         drawText("Load both signals to compute",
                  static_cast<int>(x), static_cast<int>(y + 30), 11, GRAY);
