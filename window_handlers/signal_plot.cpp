@@ -167,6 +167,7 @@ void drawSignalPlot(AppState& state, Rectangle plotRect) {
                          : std::string{};
     drawText(titleStr.c_str(), static_cast<int>(ox + 4), static_cast<int>(oy + 2), 12, DARKBLUE);
 
+    // Рисуем подсказку для управления графиком, если сигнал есть
     drawText("Mouse wheel: scroll  |  Ctrl+wheel: zoom",
              static_cast<int>(ox + drawW - 240),
              static_cast<int>(oy + drawH + 16), 10, GRAY);
