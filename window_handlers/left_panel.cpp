@@ -94,10 +94,12 @@ void drawLeftPanel(AppState& state) {
 
     drawText("Histogram bins:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
-    int binOpts[4] = {5, 10, 15, 20};
-    float bbw = (fw - 9.0f) / 4.0f;
+    // Рисуем кнопки для выбора количества бинов в гистограмме. При нажатии на кнопку обновляем количество бинов в состоянии приложения
+    int binOpts[4] = {5, 10, 15, 20}; 
+    float bbw = (fw - 9.0f) / 4.0f; // Вычисляем ширину кнопок для выбора количества бинов с учетом отступов
     for (int i = 0; i < 4; ++i) {
-        char lbl[8]; snprintf(lbl, sizeof(lbl), "%d", binOpts[i]);
+        char lbl[8]; 
+        snprintf(lbl, sizeof(lbl), "%d", binOpts[i]);
 
         Rectangle br = { x + i * (bbw + 3), y, bbw, bh };
 
