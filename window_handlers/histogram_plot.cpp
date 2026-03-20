@@ -51,7 +51,7 @@ void drawHistogram(AppState& state, Rectangle histRect) {
 
     // Считаем количество отсчетов сигнала, попадающих в каждый бин гистограммы
     std::vector<int> counts(static_cast<size_t>(bins), 0);
-    for (double v : sig->samples) {
+    for (double v : sig->samples) { // Для каждого значения сигнала вычисляем, в какой бин оно попадает, и увеличиваем счетчик для этого бина
         int b = static_cast<int>((v - yMin) / binW);
         if (b < 0) {
             b = 0;
@@ -62,11 +62,15 @@ void drawHistogram(AppState& state, Rectangle histRect) {
         counts[static_cast<size_t>(b)]++;
     }
 
+    // Находим максимальное количество отсчетов в одном бине, чтобы масштабировать высоту столбиков гистограммы
     int maxCount = *std::max_element(counts.begin(), counts.end());
     if (maxCount == 0) {
         maxCount = 1;
     }
 
+    // Рисуем столбики гистограммы
+    // Высота каждого столбика пропорциональна количеству отсчетов в соответствующем бине, 
+    // масштабированному по максимальному количеству для нормализации высоты в пределах области рисования
     float bw = drawW / bins;
     for (int i = 0; i < bins; ++i) {
         float barH = static_cast<float>(counts[static_cast<size_t>(i)]) / maxCount * drawH;
@@ -75,6 +79,8 @@ void drawHistogram(AppState& state, Rectangle histRect) {
         DrawRectangleLinesEx(bar, 1.0f, Color{50, 100, 180, 255});
     }
 
+    // Рисуем оси и подписи к ним
+    // Для вертикальной оси рисуем 5 делений, для горизонтальной - по одному для каждого бина, с учетом диапазона значений сигнала
     for (int i = 0; i <= bins; ++i) {
         double v = yMin + i * binW;
         float sx = ox + i * bw;
@@ -86,6 +92,7 @@ void drawHistogram(AppState& state, Rectangle histRect) {
                  static_cast<int>(oy + drawH + 3), 10, DARKGRAY);
     }
 
+    // Для вертикальной оси рисуем 5 делений, с учетом максимального количества отсчетов в бине для масштабирования
     for (int i = 0; i <= 4; ++i) {
         int cnt = maxCount * i / 4;
         float sy = oy + drawH - static_cast<float>(cnt) / maxCount * drawH;
