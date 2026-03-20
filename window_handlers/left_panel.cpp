@@ -101,6 +101,7 @@ void drawLeftPanel(AppState& state) {
         char lbl[8]; 
         snprintf(lbl, sizeof(lbl), "%d", binOpts[i]);
 
+        // Вычисляем прямоугольник для кнопки с учетом отступов и размера
         Rectangle br = { x + i * (bbw + 3), y, bbw, bh };
 
         drawButton(br, lbl, state.histBins == binOpts[i]);
@@ -111,16 +112,18 @@ void drawLeftPanel(AppState& state) {
             }
         }
     }
-    y += bh + 8.0f;
 
+    y += bh + 8.0f; // Вертикальный отступ после блока выбора количества бинов
+
+    // Рисуем блок со статистикой сигнала. Если статистика недоступна, показываем подсказку пользователю
     Rectangle statsRect = {x, y, fw, 100.0f};
     DrawRectangleRec(statsRect, {220, 230, 220, 255});
     DrawRectangleLinesEx(statsRect, 1.0f, COL_BTN_BORDER);
     {
-        float tx = statsRect.x + 4, ty = statsRect.y + 4;
+        float tx = statsRect.x + 4, ty = statsRect.y + 4; // Координаты для текста внутри блока статистики
         const int fs = 13;
         if (!state.statsValid) {
-            drawText("No stats — generate a signal first",
+            drawText("No stats - generate a signal first",
                      static_cast<int>(tx), static_cast<int>(ty), fs, GRAY);
         } else {
             char buf[64];
@@ -136,11 +139,13 @@ void drawLeftPanel(AppState& state) {
             drawText(buf, static_cast<int>(tx), static_cast<int>(ty), fs, BLACK);
         }
     }
+
     y += 108.0f;
 
     drawText("File:", static_cast<int>(x), static_cast<int>(y), FONT_SZ, DARKGRAY);
     y += 18.0f;
 
+    // Рисуем кнопки для сохранения и загрузки сигнала. При нажатии на кнопку открываем соответствующий диалог в состоянии приложения
     float hw = (fw - 4.0f) / 2.0f;
     Rectangle saveBtn = {x,      y, hw, 26.0f};
     Rectangle loadBtn = {x+hw+4, y, hw, 26.0f};
