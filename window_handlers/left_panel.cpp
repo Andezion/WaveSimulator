@@ -30,10 +30,10 @@ void drawLeftPanel(AppState& state) {
     const char* sigLabels[11] = {"S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11"};
     // Проходим по всем 11 типам сигналов и рисуем для каждого кнопку. Если тип сигнала соответствует выбранному, подсвечиваем кнопку
     for (int i = 0; i < 11; ++i) {
-        int col = i % 4, row = i / 4;
-
+        int col = i % 4, row = i / 4; // Вычисляем позицию кнопки в зависимости от ее индекса
+        // Вычисляем прямоугольник для кнопки с учетом отступов и размера
         Rectangle br = { x + col*(bw4 + 4), y + row*(bh + 4), bw4, bh };
-        SignalType st = static_cast<SignalType>(i + 1);
+        SignalType st = static_cast<SignalType>(i + 1); // Преобразуем индекс в тип сигнала (начинается с 1)
 
         drawButton(br, sigLabels[i], state.selectedType == st);
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -44,11 +44,13 @@ void drawLeftPanel(AppState& state) {
             }
         }
     }
-    y += 3.0f * (bh + 4.0f) + 8.0f;
 
-    float fh = 22.0f;
-    float fy_step = 40.0f;
+    y += 3.0f * (bh + 4.0f) + 8.0f; // Вертикальный отступ после блока выбора типа сигнала
 
+    float fh = 22.0f; // Высота полей ввода для параметров сигнала
+    float fy_step = 40.0f; // Вертикальный шаг между полями ввода параметров сигнала
+
+    // Лямбда-функция для рисования поля ввода с меткой. Принимает индекс поля, текст метки и флаг отображения. Если флаг false, поле не рисуется
     auto field = [&](int idx, const char* label, bool show) {
         if (!show) {
             return;
