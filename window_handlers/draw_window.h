@@ -1,6 +1,6 @@
 #pragma once
 #include "../app_state.h"
 
-void initDrawFont();
-void cleanupDrawFont();
-void drawWindow(AppState& state);
+void initDrawFont(); // Инициализируем шрифт для отрисовки текста в интерфейсе
+void cleanupDrawFont(); // Освобождаем ресурсы, связанные с шрифтом, при завершении работы приложения
+void drawWindow(AppState& state); // Рисуем все элементы интерфейса в главном окне приложения, включая левую панель, график сигнала, гистограмму и диалоговые окна
