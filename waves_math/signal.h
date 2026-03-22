@@ -52,7 +52,7 @@ protected:
 class GenericSignal : public Signal {
 public:
     std::string name = "Loaded Signal";
-    bool discrete    = false;
+    bool discrete = false;
 
     GenericSignal() = default;
 
