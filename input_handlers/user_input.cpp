@@ -20,12 +20,14 @@ void processSignalOperation(AppState& state) {
     size_t len = std::min(state.opSignal1->samples.size(),
                           state.opSignal2->samples.size());
 
+    // Создаем новый сигнал для результата операции и заполняем его параметры на основе параметров первого сигнала
     auto result = std::make_unique<GenericSignal>();
     result->name = "Result Signal";
     result->params = state.opSignal1->params;
     result->samples.resize(len);
     result->times.resize(len);
 
+    // Вычисляем отсчеты результата операции по формуле, которая зависит от выбранной операции (сложение, вычитание, умножение, деление)
     for (size_t i = 0; i < len; ++i) {
         result->times[i] = state.opSignal1->times[i];
 
