@@ -6,21 +6,24 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+// Классы для представления сигналов и их параметров, а также функции для генерации сигналов и вычисления их статистики
 struct SignalParams {
-    double amplitude    = 1.0;
-    double startTime    = 0.0;
-    double duration     = 10.0;
-    double period       = 1.0;
-    double dutyCycle    = 0.5;
+    double amplitude = 1.0;
+    double startTime = 0.0;
+    double duration = 10.0;
+    double period = 1.0;
+    double dutyCycle = 0.5;
     double samplingFreq = 100.0;
-    double stepTime     = 5.0;
-    int    sampleStart  = 0;
-    int    sampleStep   = 0;
-    double probability  = 0.5;
+    double stepTime = 5.0;
+    int sampleStart = 0;
+    int sampleStep = 0;
+    double probability = 0.5;
 };
 
+// Абстрактный базовый класс для сигналов, который определяет интерфейс для вычисления значения сигнала в заданное время и получения его имени
 class Signal {
 public:
+    // Параметры сигнала, которые определяют его форму, длительность, частоту дискретизации и другие характеристики
     SignalParams params;
     std::vector<double> samples;
     std::vector<double> times;
