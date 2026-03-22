@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstring>
 
+// Функция для обработки операций над сигналами (сложение, вычитание, умножение, деление) и сохранения результата в state.resultSignal
 void processSignalOperation(AppState& state) {
     if (!state.opSignal1 || state.opSignal1->samples.empty()) {
         state.statusMsg = "Error: Signal 1 not loaded";
@@ -14,6 +15,8 @@ void processSignalOperation(AppState& state) {
         return;
     }
 
+    // Вычисляем количество отсчетов для результата операции - это будет минимальное количество отсчетов между двумя сигналами,
+    // чтобы избежать выхода за пределы вектора samples
     size_t len = std::min(state.opSignal1->samples.size(),
                           state.opSignal2->samples.size());
 
