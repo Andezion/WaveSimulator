@@ -97,4 +97,12 @@ WavesAndSignals/
 
 ## <a id="setup">Установка</a>
 
+```
+cd ~
+git clone https://github.com/Andezion/WaveSimulator.git
+cd WaveSimulator/build
+cmake ..
+make
+./WaveSimulator
+```
 
