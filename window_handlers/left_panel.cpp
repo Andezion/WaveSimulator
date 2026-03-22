@@ -158,10 +158,12 @@ void drawLeftPanel(AppState& state) {
         if (CheckCollisionPointRec(mp, saveBtn)) {
             state.showSaveDialog = true;
             memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf));
+            strncpy(state.fileNameInput.buf, "signals/", sizeof(state.fileNameInput.buf) - 1);
         }
         if (CheckCollisionPointRec(mp, loadBtn)) {
             state.showLoadDialog = true;
             memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf));
+            strncpy(state.fileNameInput.buf, "signals/", sizeof(state.fileNameInput.buf) - 1);
         }
     }
     y += 32.0f;
@@ -190,6 +192,7 @@ void drawLeftPanel(AppState& state) {
             if (CheckCollisionPointRec(mp, lb)) {
                 state.showOp1Dialog = true;
                 memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf));
+                strncpy(state.fileNameInput.buf, "signals/", sizeof(state.fileNameInput.buf) - 1);
             }
         }
         y += 26.0f;
@@ -215,6 +218,7 @@ void drawLeftPanel(AppState& state) {
             if (CheckCollisionPointRec(mp, lb)) {
                 state.showOp2Dialog = true;
                 memset(state.fileNameInput.buf, 0, sizeof(state.fileNameInput.buf));
+                strncpy(state.fileNameInput.buf, "signals/", sizeof(state.fileNameInput.buf) - 1);
             }
         }
         y += 26.0f;
