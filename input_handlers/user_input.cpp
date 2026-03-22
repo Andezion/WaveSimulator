@@ -31,9 +31,8 @@ void processSignalOperation(AppState& state) {
     for (size_t i = 0; i < len; ++i) {
         result->times[i] = state.opSignal1->times[i];
 
-        double a = state.opSignal1->samples[i];
-        double b = state.opSignal2->samples[i];
-
+        double a = state.opSignal1->samples[i]; // Действительная часть первого сигнала
+        double b = state.opSignal2->samples[i]; // Действительная часть второго сигнала
         switch (state.selectedOp) {
             case Operation::Add: result->samples[i] = a + b; break;
             case Operation::Sub: result->samples[i] = a - b; break;
@@ -44,19 +43,23 @@ void processSignalOperation(AppState& state) {
         }
     }
 
+    // Сохраняем результат операции в state.resultSignal и обновляем статистику и статус приложения
     state.resultSignal = std::move(result);
     state.updateStats();
     state.plotScrollX = 0.0f;
     state.statusMsg = "Operation applied successfully";
 }
 
+// Функция для обработки пользовательского ввода мыши и клавиатуры для управления графиком сигнала (прокрутка, масштабирование) и закрытия диалогов
 void processInput(AppState& state, int plotX, int plotW) {
     Vector2 mouse = GetMousePosition();
     bool overPlot = (mouse.x >= plotX && mouse.x <= plotX + plotW);
 
+    // Обрабатываем прокрутку мыши для масштабирования графика сигнала, если курсор находится над графиком
     if (overPlot) {
         float wheel = GetMouseWheelMove();
         if (wheel != 0.0f) {
+            // Если зажат Ctrl, то масштабируем график, иначе прокручиваем его горизонтально
             bool ctrl = IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL);
             if (ctrl) {
                 state.plotZoom *= (wheel > 0 ? 1.15f : 1.0f / 1.15f);
