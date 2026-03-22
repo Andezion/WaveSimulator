@@ -1,5 +1,6 @@
 #include "../app_state.h"
 
+// Функция для ограничения прокрутки графика сигнала, чтобы она не выходила за пределы допустимых значений
 void clampPlotScroll(AppState& state, float plotDrawWidth) {
     if (plotDrawWidth <= 0.0f) {
         return;
