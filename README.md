@@ -46,7 +46,7 @@ https://github.com/user-attachments/assets/0be1c4d4-e08d-4a1b-b065-646b3373a3d7
 
 ```
 WavesAndSignals/
-├── main.cpp                                    — точка входа: инициализация окна Raylib, главный цикл (ввод → clamp scroll → отрисовка)
+├── main.cpp                                    — точка входа: инициализация окна Raylib, главный цикл (ввод -> clamp scroll -> отрисовка)
 ├── app_state.h / app_state.cpp                 — глобальное состояние приложения: выбранный тип сигнала, параметры,
 │                                                 текстовые поля, текущий/результирующий сигналы, статистика, флаги диалогов
 ├── CMakeLists.txt                              — сборка проекта: подключает Raylib (или скачивает через FetchContent),
