@@ -52,13 +52,14 @@ protected:
     std::pair<int,int> effectiveRange() const;
 };
 
+// Класс для представления общего сигнала, который может быть загружен из файла и отображаться на графике, но не имеет конкретной формулы для вычисления своих значений
 class GenericSignal : public Signal {
 public:
     std::string name = "Loaded Signal";
     bool discrete = false;
 
     GenericSignal() = default;
-
+    
     double computeValue(double /*t*/) const override { 
         return 0.0; 
     }
