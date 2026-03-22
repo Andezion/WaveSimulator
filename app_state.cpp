@@ -108,15 +108,20 @@ void AppState::syncInputsToParams() {
 void AppState::updateStats() {
     statsValid = false;
 
-    if (!currentSignal || currentSignal->samples.empty()) {
+    // Если есть результат операции — считаем статистику по нему, иначе по текущему сигналу
+    Signal* sig = resultSignal  ? resultSignal.get()
+                : currentSignal ? currentSignal.get()
+                : nullptr;
+
+    if (!sig || sig->samples.empty()) {
         return;
     }
 
-    statMean = currentSignal->mean();
-    statAbsMean = currentSignal->absMean();
-    statRms = currentSignal->rms();
-    statVar = currentSignal->variance();
-    statPower = currentSignal->power();
+    statMean = sig->mean();
+    statAbsMean = sig->absMean();
+    statRms = sig->rms();
+    statVar = sig->variance();
+    statPower = sig->power();
     statsValid = true;
 }
 
