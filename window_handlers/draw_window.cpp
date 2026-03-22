@@ -33,8 +33,12 @@ void drawWindow(AppState& state) {
 
     drawFileDialog(state, "Save Signal - enter filename:", state.showSaveDialog,
         [&](const std::string& path) {
-            if (state.currentSignal) {
-                bool ok = saveSignal(*state.currentSignal, path);
+            // Сохраняем результат операции если есть, иначе текущий сигнал
+            Signal* sig = state.resultSignal  ? state.resultSignal.get()
+                        : state.currentSignal ? state.currentSignal.get()
+                        : nullptr;
+            if (sig) {
+                bool ok = saveSignal(*sig, path);
                 state.statusMsg = ok ? "Saved: " + path : "Error saving: " + path;
             } else {
                 state.statusMsg = "No signal to save";
