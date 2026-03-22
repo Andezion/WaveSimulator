@@ -50,11 +50,13 @@ std::unique_ptr<Signal> loadSignal(const std::string& path) {
         sig->samples.resize(read);
     }
 
+    // Вычисляем времена отсчетов сигнала на основе времени начала и частоты дискретизации
     sig->times.resize(sig->samples.size());
     for (size_t i = 0; i < sig->samples.size(); ++i) {
         sig->times[i] = startTime + static_cast<double>(i) / samplingFreq;
     }
 
+    // Вычисляем длительность сигнала на основе времен отсчетов
     sig->params.duration = sig->samples.empty() ? 0.0
         : sig->times.back() - sig->times.front();
 
