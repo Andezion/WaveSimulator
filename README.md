@@ -42,7 +42,7 @@ https://github.com/user-attachments/assets/0be1c4d4-e08d-4a1b-b065-646b3373a3d7
 
 ## <a id="features">Важно</a>
 
-
+Опишу нашу структуру, что где лежит и что конкретно делает
 
 ## <a id="setup">Установка</a>
 
