@@ -21,7 +21,6 @@ https://github.com/user-attachments/assets/bb87e45c-26e2-42ce-b377-6dbefca307ba
 
 https://github.com/user-attachments/assets/a6503161-3556-4a6e-a3e8-331fef054979
 
-
 3) Вот так вписываем наши параметры 
 
 4) Сохранение и отчитывание графика
