@@ -24,7 +24,9 @@ https://github.com/user-attachments/assets/bb87e45c-26e2-42ce-b377-6dbefca307ba
 
 https://github.com/user-attachments/assets/a6503161-3556-4a6e-a3e8-331fef054979
 
-3) Вот так вписываем наши параметры 
+3) Вот так вписываем наши параметры
+
+https://github.com/user-attachments/assets/0be1c4d4-e08d-4a1b-b065-646b3373a3d7
 
 4) Сохранение и отчитывание графика
 
