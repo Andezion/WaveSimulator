@@ -1,4 +1,4 @@
 # WaveSimulator
 
-<video src="video/video1.mp4" controls width="100%"></video>
+https://github.com/user-attachments/assets/bb87e45c-26e2-42ce-b377-6dbefca307ba
 
